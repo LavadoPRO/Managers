@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LavadoPro</title>
+    <title>LavadoPro - App</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -85,17 +85,26 @@
         <div id="admin-dashboard" class="hidden min-h-screen bg-gray-50">
             <header class="bg-white shadow-md p-4 flex justify-between items-center sticky top-0 z-10">
                 <h1 class="text-xl md:text-2xl font-bold text-gray-800">Panel de <span class="text-blue-600">Administración</span></h1>
-                <div class="relative">
-                    <button id="settings-btn-admin" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
-                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    </button>
-                    <div id="settings-menu-admin" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20 py-1 ring-1 ring-black ring-opacity-5">
-                        <a href="#" onclick="logout(); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
+                <div class="flex items-center space-x-2">
+                    <div class="relative">
+                        <button id="settings-btn-admin" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        </button>
+                        <div id="settings-menu-admin" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20 py-1 ring-1 ring-black ring-opacity-5">
+                            <a href="#" onclick="logout(); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
+                        </div>
                     </div>
                 </div>
             </header>
-            <main class="p-4 md:p-8">
-                <h2 class="text-xl font-semibold text-gray-700 mb-4">Estado General de Servicios</h2>
+            <main class="px-4 py-8 md:px-8 md:py-12 max-w-7xl mx-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-700">Estado General de Servicios</h2>
+                    <button id="refresh-btn-admin" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition" title="Recargar pedidos">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
+                        </svg>
+                    </button>
+                </div>
                 <div id="admin-services-list" class="bg-white rounded-2xl shadow-lg overflow-x-auto">
                     <!-- La lista de servicios del admin se generará aquí -->
                 </div>
@@ -106,17 +115,26 @@
         <div id="service-dashboard" class="hidden min-h-screen bg-gray-50">
             <header class="bg-white shadow-md p-4 flex justify-between items-center sticky top-0 z-10">
                 <h1 class="text-xl md:text-2xl font-bold text-gray-800">Panel de <span class="text-blue-600">Lavado</span></h1>
-                <div class="relative">
-                    <button id="settings-btn-service" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
-                         <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    </button>
-                    <div id="settings-menu-service" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20 py-1 ring-1 ring-black ring-opacity-5">
-                        <a href="#" onclick="logout(); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
+                <div class="flex items-center space-x-2">
+                    <div class="relative">
+                        <button id="settings-btn-service" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
+                             <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        </button>
+                        <div id="settings-menu-service" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20 py-1 ring-1 ring-black ring-opacity-5">
+                            <a href="#" onclick="logout(); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
+                        </div>
                     </div>
                 </div>
             </header>
-            <main class="p-4 md:p-8">
-                <h2 class="text-xl font-semibold text-gray-700 mb-4">Pedidos en Lavandería</h2>
+            <main class="px-4 py-8 md:px-8 md:py-12 max-w-7xl mx-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-700">Pedidos en Lavandería</h2>
+                    <button id="refresh-btn-service" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition" title="Recargar pedidos">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
+                        </svg>
+                    </button>
+                </div>
                 <div id="laundry-services-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     <!-- Las tarjetas de servicios de lavado se generarán aquí -->
                 </div>
@@ -127,18 +145,27 @@
         <div id="delivery-dashboard" class="hidden min-h-screen bg-gray-50">
              <header class="bg-white shadow-md p-4 flex justify-between items-center sticky top-0 z-10">
                 <h1 class="text-xl md:text-2xl font-bold text-gray-800">Panel de <span class="text-blue-600">Domiciliario</span></h1>
-                 <div class="relative">
-                    <button id="settings-btn-delivery" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
-                         <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    </button>
-                    <div id="settings-menu-delivery" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20 py-1 ring-1 ring-black ring-opacity-5">
-                        <a href="#" onclick="logout(); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
+                 <div class="flex items-center space-x-2">
+                    <div class="relative">
+                        <button id="settings-btn-delivery" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
+                             <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        </button>
+                        <div id="settings-menu-delivery" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20 py-1 ring-1 ring-black ring-opacity-5">
+                            <a href="#" onclick="logout(); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
+                        </div>
                     </div>
                 </div>
             </header>
-            <main class="p-4 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <main class="px-4 py-8 md:px-8 md:py-12 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div>
-                    <h2 class="text-xl font-semibold text-gray-700 mb-4">Pedidos por Recoger</h2>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold text-gray-700">Pedidos por Recoger</h2>
+                        <button id="refresh-btn-delivery" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition" title="Recargar pedidos">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
+                            </svg>
+                        </button>
+                    </div>
                     <div id="pickup-services-list" class="space-y-4">
                        <!-- La lista de recogidas se generará aquí -->
                     </div>
@@ -168,7 +195,8 @@
         const deliveryDashboard = document.getElementById('delivery-dashboard');
 
         // --- Almacenamiento de Datos ---
-        let services = []; // Ya no usamos datos fijos. Se llenará desde el webhook.
+        let services = [];
+        let currentUserRole = null;
         
         // --- URLs de los Webhooks ---
         const webhooks = {
@@ -207,33 +235,30 @@
             }
 
             if (role) {
-                loginAndFetchData(role, dashboard);
+                currentUserRole = role;
+                loginAndFetchData(dashboard);
             } else {
                 errorMessage.classList.remove('hidden');
             }
         });
 
-        async function loginAndFetchData(role, dashboard) {
+        async function loginAndFetchData(dashboard) {
             loadingOverlay.classList.remove('hidden');
             try {
-                const response = await fetch(webhooks[role], { method: 'POST' });
+                const response = await fetch(webhooks[currentUserRole], { method: 'POST' });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                services = data; // Guardamos los datos recibidos
+                services = data;
 
-                // Renderizamos el panel correspondiente
-                if (role === 'admin') renderAdminServices();
-                if (role === 'service') renderLaundryServices();
-                if (role === 'delivery') renderDeliveryServices();
-
-                // Mostramos el panel
+                renderAllPanels();
                 showDashboard(dashboard);
 
             } catch (error) {
                 console.error("Error al obtener los datos:", error);
                 fetchErrorMessage.classList.remove('hidden');
+                currentUserRole = null; // Reset role on error
             } finally {
                 loadingOverlay.classList.add('hidden');
             }
@@ -251,10 +276,27 @@
             passwordInput.value = '';
             errorMessage.classList.add('hidden');
             fetchErrorMessage.classList.add('hidden');
-            services = []; // Limpiamos los datos al cerrar sesión
+            services = []; 
+            currentUserRole = null;
         }
         
-        // --- FUNCIONES DE RENDERIZADO DE PANELES (Sin cambios en su lógica interna) ---
+        async function refreshData() {
+            if (!currentUserRole) return;
+            
+            loadingOverlay.classList.remove('hidden');
+            try {
+                const response = await fetch(webhooks[currentUserRole], { method: 'POST' });
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
+                services = data;
+                renderAllPanels();
+            } catch (error) {
+                console.error("Error al refrescar los datos:", error);
+                // Optionally show a non-blocking error message
+            } finally {
+                loadingOverlay.classList.add('hidden');
+            }
+        }
 
         function renderAllPanels() {
             renderAdminServices();
@@ -264,6 +306,10 @@
 
         function renderAdminServices() {
             const container = document.getElementById('admin-services-list');
+            if (!services || services.length === 0) {
+                 container.innerHTML = `<p class="text-gray-500 p-6 text-center">No hay servicios para mostrar.</p>`;
+                 return;
+            }
             container.innerHTML = `
                 <table class="w-full text-sm text-left text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -296,7 +342,7 @@
             const laundryJobs = services.filter(s => s.status === 'en lavandería');
             
             if (laundryJobs.length === 0) {
-                 container.innerHTML = `<p class="text-gray-500 col-span-full">No hay pedidos en la lavandería en este momento.</p>`;
+                 container.innerHTML = `<p class="text-gray-500 col-span-full text-center">No hay pedidos en la lavandería en este momento.</p>`;
                  return;
             }
 
@@ -352,16 +398,14 @@
             const service = services.find(s => s.id === serviceId);
             if (service) {
                 service.status = newStatus;
-                // En un futuro, esto llamaría a un webhook para ACTUALIZAR el dato en Google Sheets.
-                // Por ahora, solo re-renderizamos la UI con el dato local actualizado.
                 renderAllPanels();
             }
         }
         function markAsReady(serviceId) { updateServiceStatus(serviceId, 'listo para entregar'); }
-        function markAsInLaundry(serviceId) { updateService-Status(serviceId, 'en lavandería'); }
+        function markAsInLaundry(serviceId) { updateServiceStatus(serviceId, 'en lavandería'); }
         function markAsDelivered(serviceId) { updateServiceStatus(serviceId, 'entregado'); }
         
-        // --- LÓGICA DEL MENÚ DE CONFIGURACIÓN ---
+        // --- LÓGICA DEL MENÚ DE CONFIGURACIÓN Y RECARGA ---
         const settingsButtons = {
             admin: document.getElementById('settings-btn-admin'),
             service: document.getElementById('settings-btn-service'),
@@ -372,6 +416,10 @@
             service: document.getElementById('settings-menu-service'),
             delivery: document.getElementById('settings-menu-delivery')
         };
+        
+        document.getElementById('refresh-btn-admin').addEventListener('click', refreshData);
+        document.getElementById('refresh-btn-service').addEventListener('click', refreshData);
+        document.getElementById('refresh-btn-delivery').addEventListener('click', refreshData);
 
         const toggleMenu = (menu) => {
             Object.values(settingsMenus).forEach(m => { if (m !== menu) m.classList.add('hidden'); });
