@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LavadoPro - App</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Configuración personalizada de Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+    
+</head>
+<body class="bg-gray-100 font-inter">
+
+    <!-- Indicador de Carga Global -->
+    <div id="loading-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-white"></div>
+    </div>
+
+
+    <!-- Contenedor Principal de la App -->
+    <div id="app-container">
+
+        <!-- Contenedor del Login (Visible por defecto) -->
+        <div id="login-section" class="min-h-screen flex items-center justify-center p-4">
+            <div class="w-full max-w-md">
+                <div class="bg-white rounded-2xl shadow-2xl overflow-hidden p-8 md:p-12">
+                    <div class="text-center">
+                        <h1 class="text-3xl font-bold text-gray-900">Lavado<span class="text-blue-600">Pro</span></h1>
+                        <h2 class="mt-4 text-2xl font-bold leading-9 tracking-tight text-gray-800">Bienvenido de nuevo</h2>
+                        <p class="mt-2 text-sm text-gray-600">Inicia sesión para continuar.</p>
+                    </div>
+                    <div class="mt-10">
+                        <form id="login-form" class="space-y-6">
+                            <div>
+                                <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Correo electrónico</label>
+                                <div class="mt-2">
+                                    <input id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-lg border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition duration-300" placeholder="tu@correo.com">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between">
+                                    <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
+                                    <div class="text-sm">
+                                        <a href="#" class="font-semibold text-blue-600 hover:text-blue-500">¿Olvidaste tu contraseña?</a>
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-lg border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition duration-300" placeholder="••••••••">
+                                </div>
+                            </div>
+                            <p id="error-message" class="hidden text-center text-sm text-red-600">Correo o contraseña incorrectos.</p>
+                             <p id="fetch-error-message" class="hidden text-center text-sm text-red-600">No se pudieron cargar los datos. Inténtalo de nuevo.</p>
+                            <div>
+                                <button type="submit" class="flex w-full justify-center rounded-lg bg-blue-600 px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition duration-300 transform hover:scale-105">Iniciar Sesión</button>
+                            </div>
+                        </form>
+                        <p class="mt-10 text-center text-sm text-gray-500">
+                            ¿No tienes una cuenta? <a href="#" class="font-semibold leading-6 text-blue-600 hover:text-blue-500">Regístrate ahora</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ***** PANELES DE LA APLICACIÓN ***** -->
+        <!-- Panel del Administrador (Oculto por defecto) -->
+        <div id="admin-dashboard" class="hidden min-h-screen bg-gray-50">
+            <header class="bg-white shadow-md p-4 flex justify-between items-center sticky top-0 z-10">
+                <h1 class="text-xl md:text-2xl font-bold text-gray-800">Panel de <span class="text-blue-600">Administración</span></h1>
+                <div class="relative">
+                    <button id="settings-btn-admin" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </button>
+                    <div id="settings-menu-admin" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20 py-1 ring-1 ring-black ring-opacity-5">
+                        <a href="#" onclick="logout(); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
+                    </div>
+                </div>
+            </header>
+            <main class="p-4 md:p-8">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">Estado General de Servicios</h2>
+                <div id="admin-services-list" class="bg-white rounded-2xl shadow-lg overflow-x-auto">
+                    <!-- La lista de servicios del admin se generará aquí -->
+                </div>
+            </main>
+        </div>
+
+        <!-- Panel de Servicio (Oculto por defecto) -->
+        <div id="service-dashboard" class="hidden min-h-screen bg-gray-50">
+            <header class="bg-white shadow-md p-4 flex justify-between items-center sticky top-0 z-10">
+                <h1 class="text-xl md:text-2xl font-bold text-gray-800">Panel de <span class="text-blue-600">Lavado</span></h1>
+                <div class="relative">
+                    <button id="settings-btn-service" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
+                         <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </button>
+                    <div id="settings-menu-service" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20 py-1 ring-1 ring-black ring-opacity-5">
+                        <a href="#" onclick="logout(); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
+                    </div>
+                </div>
+            </header>
+            <main class="p-4 md:p-8">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">Pedidos en Lavandería</h2>
+                <div id="laundry-services-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Las tarjetas de servicios de lavado se generarán aquí -->
+                </div>
+            </main>
+        </div>
+
+        <!-- Panel del Domiciliario (Oculto por defecto) -->
+        <div id="delivery-dashboard" class="hidden min-h-screen bg-gray-50">
+             <header class="bg-white shadow-md p-4 flex justify-between items-center sticky top-0 z-10">
+                <h1 class="text-xl md:text-2xl font-bold text-gray-800">Panel de <span class="text-blue-600">Domiciliario</span></h1>
+                 <div class="relative">
+                    <button id="settings-btn-delivery" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
+                         <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </button>
+                    <div id="settings-menu-delivery" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20 py-1 ring-1 ring-black ring-opacity-5">
+                        <a href="#" onclick="logout(); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
+                    </div>
+                </div>
+            </header>
+            <main class="p-4 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-700 mb-4">Pedidos por Recoger</h2>
+                    <div id="pickup-services-list" class="space-y-4">
+                       <!-- La lista de recogidas se generará aquí -->
+                    </div>
+                </div>
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-700 mb-4">Pedidos por Entregar</h2>
+                     <div id="deliver-services-list" class="space-y-4">
+                       <!-- La lista de entregas se generará aquí -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // --- Referencias a los elementos del DOM ---
+        const loginForm = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('error-message');
+        const fetchErrorMessage = document.getElementById('fetch-error-message');
+        const loadingOverlay = document.getElementById('loading-overlay');
+
+        const loginSection = document.getElementById('login-section');
+        const adminDashboard = document.getElementById('admin-dashboard');
+        const serviceDashboard = document.getElementById('service-dashboard');
+        const deliveryDashboard = document.getElementById('delivery-dashboard');
+
+        // --- Almacenamiento de Datos ---
+        let services = []; // Ya no usamos datos fijos. Se llenará desde el webhook.
+        
+        // --- URLs de los Webhooks ---
+        const webhooks = {
+            admin: 'https://webhook.wipti.com/webhook/admin/sesion/lavado',
+            service: 'https://webhook.wipti.com/webhook/servicio/sesion/lavado',
+            delivery: 'https://webhook.wipti.com/webhook/domiciliario/sesion/lavado'
+        };
+
+        const statusStyles = {
+            'pendiente de recogida': { text: 'Pendiente de Recogida', color: 'bg-yellow-100 text-yellow-800' },
+            'en lavandería': { text: 'En Lavandería', color: 'bg-blue-100 text-blue-800' },
+            'listo para entregar': { text: 'Listo para Entregar', color: 'bg-green-100 text-green-800' },
+            'entregado': { text: 'Entregado', color: 'bg-gray-200 text-gray-800' }
+        };
+
+        // --- Lógica de Inicio de Sesión ---
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            errorMessage.classList.add('hidden');
+            fetchErrorMessage.classList.add('hidden');
+
+            let role = null;
+            let dashboard = null;
+
+            if (email === 'AdminLavado@SecretPro.com' && password === 'Admin@LavadoPro77*') {
+                role = 'admin';
+                dashboard = adminDashboard;
+            } else if (email === 'Servicio@LavadoPro.com' && password === 'ServicioL#Pro77#') {
+                role = 'service';
+                dashboard = serviceDashboard;
+            } else if (email === 'domicialiario@LavadoPro.com' && password === 'DomiciliarioL#7Pro7') {
+                role = 'delivery';
+                dashboard = deliveryDashboard;
+            }
+
+            if (role) {
+                loginAndFetchData(role, dashboard);
+            } else {
+                errorMessage.classList.remove('hidden');
+            }
+        });
+
+        async function loginAndFetchData(role, dashboard) {
+            loadingOverlay.classList.remove('hidden');
+            try {
+                const response = await fetch(webhooks[role], { method: 'POST' });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                services = data; // Guardamos los datos recibidos
+
+                // Renderizamos el panel correspondiente
+                if (role === 'admin') renderAdminServices();
+                if (role === 'service') renderLaundryServices();
+                if (role === 'delivery') renderDeliveryServices();
+
+                // Mostramos el panel
+                showDashboard(dashboard);
+
+            } catch (error) {
+                console.error("Error al obtener los datos:", error);
+                fetchErrorMessage.classList.remove('hidden');
+            } finally {
+                loadingOverlay.classList.add('hidden');
+            }
+        }
+        
+        function showDashboard(dashboardToShow) {
+            loginSection.classList.add('hidden');
+            dashboardToShow.classList.remove('hidden');
+        }
+
+        function logout() {
+            [adminDashboard, serviceDashboard, deliveryDashboard].forEach(d => d.classList.add('hidden'));
+            loginSection.classList.remove('hidden');
+            emailInput.value = '';
+            passwordInput.value = '';
+            errorMessage.classList.add('hidden');
+            fetchErrorMessage.classList.add('hidden');
+            services = []; // Limpiamos los datos al cerrar sesión
+        }
+        
+        // --- FUNCIONES DE RENDERIZADO DE PANELES (Sin cambios en su lógica interna) ---
+
+        function renderAllPanels() {
+            renderAdminServices();
+            renderLaundryServices();
+            renderDeliveryServices();
+        }
+
+        function renderAdminServices() {
+            const container = document.getElementById('admin-services-list');
+            container.innerHTML = `
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">ID Pedido</th>
+                            <th scope="col" class="px-6 py-3">Cliente</th>
+                            <th scope="col" class="px-6 py-3">Dirección</th>
+                            <th scope="col" class="px-6 py-3 text-center">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${services.map(service => `
+                            <tr class="bg-white border-b hover:bg-gray-50">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${service.id}</th>
+                                <td class="px-6 py-4">${service.customer}</td>
+                                <td class="px-6 py-4">${service.address}</td>
+                                <td class="px-6 py-4 text-center">
+                                    <span class="px-2 py-1 font-semibold leading-tight rounded-full text-xs ${statusStyles[service.status]?.color || 'bg-gray-200 text-gray-800'}">
+                                        ${statusStyles[service.status]?.text || 'Desconocido'}
+                                    </span>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>`;
+        }
+
+        function renderLaundryServices() {
+            const container = document.getElementById('laundry-services-list');
+            const laundryJobs = services.filter(s => s.status === 'en lavandería');
+            
+            if (laundryJobs.length === 0) {
+                 container.innerHTML = `<p class="text-gray-500 col-span-full">No hay pedidos en la lavandería en este momento.</p>`;
+                 return;
+            }
+
+            container.innerHTML = laundryJobs.map(service => `
+                <div class="bg-white rounded-xl shadow-lg p-5 border border-gray-200 flex flex-col justify-between hover:shadow-xl transition-shadow duration-300">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-bold text-gray-800 text-lg">${service.id}</span>
+                            <span class="flex items-center text-sm text-gray-500 font-medium"><svg class="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>${service.items} prendas</span>
+                        </div>
+                        <p class="text-lg font-semibold text-gray-900 mb-4">${service.customer}</p>
+                    </div>
+                    <button onclick="markAsReady('${service.id}')" class="w-full mt-auto flex items-center justify-center gap-2 rounded-lg bg-green-500 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-green-600 transition transform hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                        Marcar como Listo
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function renderDeliveryServices() {
+            const pickupContainer = document.getElementById('pickup-services-list');
+            const deliverContainer = document.getElementById('deliver-services-list');
+            const pickups = services.filter(s => s.status === 'pendiente de recogida');
+            const deliveries = services.filter(s => s.status === 'listo para entregar');
+            pickupContainer.innerHTML = pickups.length > 0 ? pickups.map(service => deliveryCard(service, 'pickup')).join('') : `<div class="bg-white rounded-xl shadow p-4 text-center text-gray-500">No hay recogidas pendientes.</div>`;
+            deliverContainer.innerHTML = deliveries.length > 0 ? deliveries.map(service => deliveryCard(service, 'deliver')).join('') : `<div class="bg-white rounded-xl shadow p-4 text-center text-gray-500">No hay entregas pendientes.</div>`;
+        }
+        
+        function deliveryCard(service, type) {
+            const isPickup = type === 'pickup';
+            const buttonText = isPickup ? 'Confirmar Recogida' : 'Confirmar Entrega';
+            const buttonClass = isPickup ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-600 hover:bg-green-700';
+            const onClickAction = isPickup ? `markAsInLaundry('${service.id}')` : `markAsDelivered('${service.id}')`;
+            
+            return `
+                <div class="bg-white rounded-xl shadow-md p-4 border border-gray-200 flex flex-col hover:shadow-lg transition-shadow duration-300">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="font-bold text-gray-800">${service.id}</span>
+                        <span class="flex items-center text-sm text-gray-500 font-medium"><svg class="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>${service.items} prendas</span>
+                    </div>
+                    <div class="mb-4 space-y-2 flex-grow">
+                        <div class="flex items-center text-gray-700"><svg class="w-5 h-5 mr-2 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg><p class="font-semibold">${service.customer}</p></div>
+                        <div class="flex items-start text-gray-600"><svg class="w-5 h-5 mr-2 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg><p class="text-sm">${service.address}</p></div>
+                    </div>
+                    <button onclick="${onClickAction}" class="w-full mt-auto rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition transform hover:scale-105 ${buttonClass}">${buttonText}</button>
+                </div>
+            `;
+        }
+        
+        // --- FUNCIONES DE ACTUALIZACIÓN DE ESTADO ---
+        function updateServiceStatus(serviceId, newStatus) {
+            const service = services.find(s => s.id === serviceId);
+            if (service) {
+                service.status = newStatus;
+                // En un futuro, esto llamaría a un webhook para ACTUALIZAR el dato en Google Sheets.
+                // Por ahora, solo re-renderizamos la UI con el dato local actualizado.
+                renderAllPanels();
+            }
+        }
+        function markAsReady(serviceId) { updateServiceStatus(serviceId, 'listo para entregar'); }
+        function markAsInLaundry(serviceId) { updateService-Status(serviceId, 'en lavandería'); }
+        function markAsDelivered(serviceId) { updateServiceStatus(serviceId, 'entregado'); }
+        
+        // --- LÓGICA DEL MENÚ DE CONFIGURACIÓN ---
+        const settingsButtons = {
+            admin: document.getElementById('settings-btn-admin'),
+            service: document.getElementById('settings-btn-service'),
+            delivery: document.getElementById('settings-btn-delivery')
+        };
+        const settingsMenus = {
+            admin: document.getElementById('settings-menu-admin'),
+            service: document.getElementById('settings-menu-service'),
+            delivery: document.getElementById('settings-menu-delivery')
+        };
+
+        const toggleMenu = (menu) => {
+            Object.values(settingsMenus).forEach(m => { if (m !== menu) m.classList.add('hidden'); });
+            menu.classList.toggle('hidden');
+        };
+
+        Object.keys(settingsButtons).forEach(key => {
+            settingsButtons[key].addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMenu(settingsMenus[key]);
+            });
+        });
+
+        window.addEventListener('click', () => {
+            Object.values(settingsMenus).forEach(m => m.classList.add('hidden'));
+        });
+
+    </script>
+</body>
+</html>
+
