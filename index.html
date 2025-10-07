@@ -9,6 +9,9 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -87,59 +90,49 @@
 
         <!-- ***** PANELES DE LA APLICACIÓN ***** -->
         <!-- Panel del Administrador (Oculto por defecto) -->
-        <div id="admin-dashboard" class="hidden min-h-screen bg-gray-50">
-            <header class="bg-white shadow-md p-4 flex justify-between items-center sticky top-0 z-10">
+        <div id="admin-dashboard" class="hidden min-h-screen bg-gray-100">
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-20">
                 <h1 class="text-xl md:text-2xl font-bold text-gray-800">Panel de <span class="text-blue-600">Administración</span></h1>
                 <div class="flex items-center space-x-2">
                     <div class="relative">
                         <button id="settings-btn-admin" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
                             <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                         </button>
-                        <div id="settings-menu-admin" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20 py-1 ring-1 ring-black ring-opacity-5">
+                        <div id="settings-menu-admin" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-30 py-1 ring-1 ring-black ring-opacity-5">
                             <a href="#" onclick="logout(); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
                         </div>
                     </div>
                 </div>
             </header>
-            <main class="px-4 py-8 md:px-8 md:py-12 max-w-7xl mx-auto">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold text-gray-700">Estado General de Servicios</h2>
-                    <button id="refresh-btn-admin" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition" title="Recargar pedidos">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
-                        </svg>
-                      </button>
-                </div>
-                <div id="admin-services-list" class="bg-white rounded-2xl shadow-lg overflow-x-auto">
-                    <!-- La lista de servicios del admin se generará aquí -->
+            <main class="px-4 py-6 md:px-6 md:py-8">
+                <div id="admin-content-wrapper" class="max-w-7xl mx-auto space-y-6">
+                    <!-- El contenido del admin (estadísticas, gráfico y tabla) se inyectará aquí -->
                 </div>
             </main>
         </div>
 
         <!-- Panel de Servicio (Oculto por defecto) -->
-        <div id="service-dashboard" class="hidden min-h-screen bg-gray-50">
-            <header class="bg-white shadow-md p-4 flex justify-between items-center sticky top-0 z-10">
+        <div id="service-dashboard" class="hidden min-h-screen bg-gray-100">
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-20">
                 <h1 class="text-xl md:text-2xl font-bold text-gray-800">Panel de <span class="text-blue-600">Servicio</span></h1>
                 <div class="flex items-center space-x-2">
+                     <button id="refresh-btn-service" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition" title="Recargar pedidos">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
+                        </svg>
+                    </button>
                     <div class="relative">
                         <button id="settings-btn-service" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
                              <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                         </button>
-                        <div id="settings-menu-service" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20 py-1 ring-1 ring-black ring-opacity-5">
+                        <div id="settings-menu-service" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-30 py-1 ring-1 ring-black ring-opacity-5">
                             <a href="#" onclick="logout(); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
                         </div>
                     </div>
                 </div>
             </header>
             <main class="px-4 py-8 md:px-8 md:py-12 max-w-7xl mx-auto">
-                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold text-gray-700">Pedidos en Lavandería</h2>
-                    <button id="refresh-btn-service" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition" title="Recargar pedidos">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
-                        </svg>
-                    </button>
-                </div>
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">Pedidos en Lavandería</h2>
                 <div id="laundry-services-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     <!-- Las tarjetas de servicios de lavado se generarán aquí -->
                 </div>
@@ -147,15 +140,20 @@
         </div>
 
         <!-- Panel del Domiciliario (Oculto por defecto) -->
-        <div id="delivery-dashboard" class="hidden min-h-screen bg-gray-50">
-             <header class="bg-white shadow-md p-4 flex justify-between items-center sticky top-0 z-10">
+        <div id="delivery-dashboard" class="hidden min-h-screen bg-gray-100">
+             <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-20">
                 <h1 class="text-xl md:text-2xl font-bold text-gray-800">Panel de <span class="text-blue-600">Domiciliario</span></h1>
                  <div class="flex items-center space-x-2">
+                     <button id="refresh-btn-delivery" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition" title="Recargar pedidos">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
+                         </svg>
+                    </button>
                     <div class="relative">
                         <button id="settings-btn-delivery" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
                              <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                         </button>
-                        <div id="settings-menu-delivery" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20 py-1 ring-1 ring-black ring-opacity-5">
+                        <div id="settings-menu-delivery" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-30 py-1 ring-1 ring-black ring-opacity-5">
                             <a href="#" onclick="logout(); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
                         </div>
                     </div>
@@ -163,14 +161,7 @@
             </header>
             <main class="px-4 py-8 md:px-8 md:py-12 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div>
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-700">Pedidos por Recoger</h2>
-                        <button id="refresh-btn-delivery" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition" title="Recargar pedidos">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                               <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
-                             </svg>
-                        </button>
-                    </div>
+                    <h2 class="text-xl font-semibold text-gray-700 mb-4">Pedidos por Recoger</h2>
                     <div id="pickup-services-list" class="space-y-4">
                        <!-- La lista de recogidas se generará aquí -->
                     </div>
@@ -207,6 +198,7 @@
         const modalConfirmBtn = document.getElementById('modal-confirm-btn');
         const modalCancelBtn = document.getElementById('modal-cancel-btn');
         let onConfirmCallback = null;
+        let adminChartInstance = null;
 
 
         // --- Almacenamiento de Datos ---
@@ -220,12 +212,44 @@
             delivery: 'https://webhook.wipti.com/webhook/domiciliario/sesion/lavado'
         };
 
-        const statusStyles = {
-            'pendiente de recogida': { text: 'Pendiente de Recogida', color: 'bg-yellow-100 text-yellow-800' },
-            'en lavandería': { text: 'En Lavandería', color: 'bg-blue-100 text-blue-800' },
-            'listo para entregar': { text: 'Listo para Entregar', color: 'bg-green-100 text-green-800' },
-            'entregado': { text: 'Entregado', color: 'bg-gray-200 text-gray-800' }
+        const statusConfig = {
+            'pendiente de recogida': {
+                text: 'Pendiente',
+                textColor: 'text-yellow-600',
+                progressColor: 'bg-yellow-400',
+                progressWidth: 'w-1/4',
+                chartColor: '#FBBF24', // yellow-400
+            },
+            'en lavandería': {
+                text: 'En Lavandería',
+                textColor: 'text-purple-600',
+                progressColor: 'bg-purple-600',
+                progressWidth: 'w-2/4',
+                chartColor: '#6D28D9', // purple-700
+            },
+            'listo para entregar': {
+                text: 'Listo',
+                textColor: 'text-sky-600',
+                progressColor: 'bg-sky-500',
+                progressWidth: 'w-3/4',
+                chartColor: '#0EA5E9', // sky-500
+            },
+            'entregado': {
+                text: 'Entregado',
+                textColor: 'text-green-700',
+                progressColor: 'bg-green-600',
+                progressWidth: 'w-full',
+                chartColor: '#16A34A', // green-600
+            },
+            'default': {
+                text: 'Desconocido',
+                textColor: 'text-gray-600',
+                progressColor: 'bg-gray-300',
+                progressWidth: 'w-0',
+                chartColor: '#D1D5DB', // gray-300
+            }
         };
+
 
         // --- Lógica de Inicio de Sesión ---
         loginForm.addEventListener('submit', function(event) {
@@ -319,37 +343,166 @@
             renderDeliveryServices();
         }
 
+        // --- RENDERIZADO DEL PANEL DE ADMINISTRACIÓN MEJORADO ---
+        function renderAdminChart(statusCounts) {
+            const ctx = document.getElementById('admin-chart').getContext('2d');
+            if (adminChartInstance) {
+                adminChartInstance.destroy();
+            }
+
+            const data = {
+                labels: ['Pendiente', 'En Lavandería', 'Listo', 'Entregado'],
+                datasets: [{
+                    label: 'Estado de Pedidos',
+                    data: [
+                        statusCounts['pendiente de recogida'] || 0,
+                        statusCounts['en lavandería'] || 0,
+                        statusCounts['listo para entregar'] || 0,
+                        statusCounts['entregado'] || 0
+                    ],
+                    backgroundColor: [
+                        statusConfig['pendiente de recogida'].chartColor,
+                        statusConfig['en lavandería'].chartColor,
+                        statusConfig['listo para entregar'].chartColor,
+                        statusConfig['entregado'].chartColor
+                    ],
+                    borderColor: '#fff',
+                    borderWidth: 4,
+                    hoverOffset: 8
+                }]
+            };
+
+            adminChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                font: {
+                                    family: 'Inter, sans-serif',
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            bodyFont: {
+                                family: 'Inter, sans-serif'
+                            },
+                            titleFont: {
+                                family: 'Inter, sans-serif'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
         function renderAdminServices() {
-            const container = document.getElementById('admin-services-list');
+            const container = document.getElementById('admin-content-wrapper');
             if (!services || services.length === 0) {
-                 container.innerHTML = `<p class="text-gray-500 p-6 text-center">No hay servicios para mostrar.</p>`;
+                 container.innerHTML = `<p class="text-gray-500 p-6 text-center bg-white rounded-2xl shadow-md">No hay servicios para mostrar.</p>`;
                  return;
             }
+
+            const statusCounts = services.reduce((acc, service) => {
+                acc[service.status] = (acc[service.status] || 0) + 1;
+                return acc;
+            }, {});
+            
+            const totalServices = services.length;
+            const entregadoCount = statusCounts['entregado'] || 0;
+            const pendienteCount = statusCounts['pendiente de recogida'] || 0;
+            const enLavanderiaCount = statusCounts['en lavandería'] || 0;
+            const listoParaEntregarCount = statusCounts['listo para entregar'] || 0;
+
             container.innerHTML = `
-                <table class="w-full text-sm text-left text-gray-500">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">ID Pedido</th>
-                            <th scope="col" class="px-6 py-3">Cliente</th>
-                            <th scope="col" class="px-6 py-3">Dirección</th>
-                            <th scope="col" class="px-6 py-3 text-center">Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${services.map(service => `
-                            <tr class="bg-white border-b hover:bg-gray-50">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${service.id}</th>
-                                <td class="px-6 py-4">${service.customer}</td>
-                                <td class="px-6 py-4">${service.address}</td>
-                                <td class="px-6 py-4 text-center">
-                                    <span class="px-2 py-1 font-semibold leading-tight rounded-full text-xs ${statusStyles[service.status]?.color || 'bg-gray-200 text-gray-800'}">
-                                        ${statusStyles[service.status]?.text || 'Desconocido'}
-                                    </span>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>`;
+                <!-- Contenedor del Gráfico y Estadísticas -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-white rounded-2xl shadow-lg p-4 md:p-6 flex flex-col">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Resumen de Estado de Pedidos</h3>
+                        <div class="relative h-64 md:h-80">
+                            <canvas id="admin-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+                        <div class="bg-white rounded-2xl shadow-lg p-5">
+                            <p class="text-sm font-medium text-gray-500">Pendiente de Recogida</p>
+                            <p class="text-3xl font-bold ${statusConfig['pendiente de recogida'].textColor} mt-1">${pendienteCount}</p>
+                        </div>
+                        <div class="bg-white rounded-2xl shadow-lg p-5">
+                            <p class="text-sm font-medium text-gray-500">En Lavandería</p>
+                            <p class="text-3xl font-bold ${statusConfig['en lavandería'].textColor} mt-1">${enLavanderiaCount}</p>
+                        </div>
+                         <div class="bg-white rounded-2xl shadow-lg p-5">
+                            <p class="text-sm font-medium text-gray-500">Listo para Entregar</p>
+                            <p class="text-3xl font-bold ${statusConfig['listo para entregar'].textColor} mt-1">${listoParaEntregarCount}</p>
+                        </div>
+                        <div class="bg-white rounded-2xl shadow-lg p-5">
+                            <p class="text-sm font-medium text-gray-500">Entregado</p>
+                            <p class="text-3xl font-bold ${statusConfig['entregado'].textColor} mt-1">${entregadoCount}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenedor de la Tabla de Servicios -->
+                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    <div class="flex justify-between items-center p-4 md:p-6 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-800">Todos los Servicios</h3>
+                        <button id="refresh-btn-admin" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition" title="Recargar pedidos">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
+                            </svg>
+                        </button>
+                    </div>
+                     <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-gray-600">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-4">ID Pedido</th>
+                                    <th scope="col" class="px-6 py-4">Cliente</th>
+                                    <th scope="col" class="px-6 py-4 min-w-[250px]">Progreso</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                ${services.map(service => {
+                                    const config = statusConfig[service.status] || statusConfig.default;
+                                    return `
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${service.id}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">${service.customer}</td>
+                                        <td class="px-6 py-4">
+                                            <div class="flex flex-col">
+                                                <div class="flex justify-between mb-1">
+                                                    <span class="text-xs font-semibold ${config.textColor}">
+                                                        ${config.text}
+                                                    </span>
+                                                </div>
+                                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                    <div class="h-2.5 rounded-full ${config.progressColor} ${config.progressWidth}" style="transition: width 0.5s ease-in-out;"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            
+            // Llama a la función para renderizar el gráfico después de crear el canvas
+            renderAdminChart(statusCounts);
+            // Vuelve a añadir el listener para el nuevo botón de refrescar
+            document.getElementById('refresh-btn-admin').addEventListener('click', refreshData);
         }
 
         function renderLaundryServices() {
@@ -357,7 +510,7 @@
             const laundryJobs = services.filter(s => s.status === 'en lavandería');
             
             if (laundryJobs.length === 0) {
-                 container.innerHTML = `<p class="text-gray-500 col-span-full text-center">No hay pedidos en la lavandería en este momento.</p>`;
+                 container.innerHTML = `<p class="text-gray-500 col-span-full text-center py-8">No hay pedidos en la lavandería en este momento.</p>`;
                  return;
             }
 
@@ -525,7 +678,6 @@
             delivery: document.getElementById('settings-menu-delivery')
         };
         
-        document.getElementById('refresh-btn-admin').addEventListener('click', refreshData);
         document.getElementById('refresh-btn-service').addEventListener('click', refreshData);
         document.getElementById('refresh-btn-delivery').addEventListener('click', refreshData);
 
@@ -548,4 +700,7 @@
     </script>
 </body>
 </html>
+
+
+
 
