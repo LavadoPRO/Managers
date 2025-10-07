@@ -92,11 +92,16 @@
         <!-- Panel del Administrador (Oculto por defecto) -->
         <div id="admin-dashboard" class="hidden min-h-screen bg-gray-100">
             <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-20">
-                <h1 class="text-xl md:text-2xl font-bold text-gray-800">Panel de <span class="text-blue-600">Administración</span></h1>
-                <div class="flex items-center space-x-2">
+                <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">Panel de <span class="text-blue-600">Administración</span></h1>
+                <div class="flex items-center space-x-1 sm:space-x-2">
+                    <button id="refresh-btn-admin" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition" title="Recargar pedidos">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
+                        </svg>
+                    </button>
                     <div class="relative">
                         <button id="settings-btn-admin" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
-                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <svg class="w-5 w-5 sm:w-6 sm:h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                         </button>
                         <div id="settings-menu-admin" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-30 py-1 ring-1 ring-black ring-opacity-5">
                             <a href="#" onclick="logout(); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
@@ -104,9 +109,9 @@
                     </div>
                 </div>
             </header>
-            <main class="px-4 py-6 md:px-6 md:py-8">
+            <main class="px-2 sm:px-4 py-6 md:px-6 md:py-8">
                 <div id="admin-content-wrapper" class="max-w-7xl mx-auto space-y-6">
-                    <!-- El contenido del admin (estadísticas, gráfico y tabla) se inyectará aquí -->
+                    <!-- El contenido del admin con pestañas se inyectará aquí -->
                 </div>
             </main>
         </div>
@@ -216,36 +221,31 @@
             'pendiente de recogida': {
                 text: 'Pendiente',
                 textColor: 'text-yellow-600',
-                progressColor: 'bg-yellow-400',
-                progressWidth: 'w-1/4',
+                badgeColor: 'bg-yellow-100 text-yellow-800',
                 chartColor: '#FBBF24', // yellow-400
             },
             'en lavandería': {
                 text: 'En Lavandería',
                 textColor: 'text-purple-600',
-                progressColor: 'bg-purple-600',
-                progressWidth: 'w-2/4',
+                badgeColor: 'bg-purple-100 text-purple-800',
                 chartColor: '#6D28D9', // purple-700
             },
             'listo para entregar': {
                 text: 'Listo',
                 textColor: 'text-sky-600',
-                progressColor: 'bg-sky-500',
-                progressWidth: 'w-3/4',
+                badgeColor: 'bg-sky-100 text-sky-800',
                 chartColor: '#0EA5E9', // sky-500
             },
             'entregado': {
                 text: 'Entregado',
                 textColor: 'text-green-700',
-                progressColor: 'bg-green-600',
-                progressWidth: 'w-full',
+                badgeColor: 'bg-green-100 text-green-800',
                 chartColor: '#16A34A', // green-600
             },
             'default': {
                 text: 'Desconocido',
                 textColor: 'text-gray-600',
-                progressColor: 'bg-gray-300',
-                progressWidth: 'w-0',
+                badgeColor: 'bg-gray-200 text-gray-800',
                 chartColor: '#D1D5DB', // gray-300
             }
         };
@@ -331,7 +331,6 @@
                 renderAllPanels();
             } catch (error) {
                 console.error("Error al refrescar los datos:", error);
-                // Optionally show a non-blocking error message
             } finally {
                 loadingOverlay.classList.add('hidden');
             }
@@ -343,28 +342,29 @@
             renderDeliveryServices();
         }
 
-        // --- RENDERIZADO DEL PANEL DE ADMINISTRACIÓN MEJORADO ---
+        // --- RENDERIZADO DEL PANEL DE ADMINISTRACIÓN CON PESTAÑAS ---
         function renderAdminChart(statusCounts) {
-            const ctx = document.getElementById('admin-chart').getContext('2d');
+            const canvas = document.getElementById('admin-chart');
+            if (!canvas) return; // Salir si el canvas no está en el DOM (en otra pestaña)
+            
+            const ctx = canvas.getContext('2d');
             if (adminChartInstance) {
                 adminChartInstance.destroy();
             }
 
             const data = {
-                labels: ['Pendiente', 'En Lavandería', 'Listo', 'Entregado'],
+                labels: ['Pendiente', 'En Lavandería', 'Listo para Entregar'],
                 datasets: [{
-                    label: 'Estado de Pedidos',
+                    label: 'Estado de Pedidos Activos',
                     data: [
                         statusCounts['pendiente de recogida'] || 0,
                         statusCounts['en lavandería'] || 0,
-                        statusCounts['listo para entregar'] || 0,
-                        statusCounts['entregado'] || 0
+                        statusCounts['listo para entregar'] || 0
                     ],
                     backgroundColor: [
                         statusConfig['pendiente de recogida'].chartColor,
                         statusConfig['en lavandería'].chartColor,
-                        statusConfig['listo para entregar'].chartColor,
-                        statusConfig['entregado'].chartColor
+                        statusConfig['listo para entregar'].chartColor
                     ],
                     borderColor: '#fff',
                     borderWidth: 4,
@@ -392,103 +392,49 @@
                                 }
                             }
                         },
-                        tooltip: {
-                            bodyFont: {
-                                family: 'Inter, sans-serif'
-                            },
-                            titleFont: {
-                                family: 'Inter, sans-serif'
-                            }
-                        }
+                        tooltip: { bodyFont: { family: 'Inter, sans-serif' }, titleFont: { family: 'Inter, sans-serif' } }
                     }
                 }
             });
         }
         
-        function renderAdminServices() {
-            const container = document.getElementById('admin-content-wrapper');
-            if (!services || services.length === 0) {
-                 container.innerHTML = `<p class="text-gray-500 p-6 text-center bg-white rounded-2xl shadow-md">No hay servicios para mostrar.</p>`;
-                 return;
+        function createServiceTableHTML(serviceList, title) {
+            if (!serviceList || serviceList.length === 0) {
+                return `<div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 text-center text-gray-500">
+                            <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-2">${title}</h3>
+                            <p class="text-sm sm:text-base">No hay servicios en esta categoría por el momento.</p>
+                        </div>`;
             }
 
-            const statusCounts = services.reduce((acc, service) => {
-                acc[service.status] = (acc[service.status] || 0) + 1;
-                return acc;
-            }, {});
-            
-            const totalServices = services.length;
-            const entregadoCount = statusCounts['entregado'] || 0;
-            const pendienteCount = statusCounts['pendiente de recogida'] || 0;
-            const enLavanderiaCount = statusCounts['en lavandería'] || 0;
-            const listoParaEntregarCount = statusCounts['listo para entregar'] || 0;
-
-            container.innerHTML = `
-                <!-- Contenedor del Gráfico y Estadísticas -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-2 bg-white rounded-2xl shadow-lg p-4 md:p-6 flex flex-col">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Resumen de Estado de Pedidos</h3>
-                        <div class="relative h-64 md:h-80">
-                            <canvas id="admin-chart"></canvas>
-                        </div>
+            return `
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    <div class="p-4 sm:p-6 border-b border-gray-200">
+                        <h3 class="text-base sm:text-lg font-semibold text-gray-800">${title}</h3>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
-                        <div class="bg-white rounded-2xl shadow-lg p-5">
-                            <p class="text-sm font-medium text-gray-500">Pendiente de Recogida</p>
-                            <p class="text-3xl font-bold ${statusConfig['pendiente de recogida'].textColor} mt-1">${pendienteCount}</p>
-                        </div>
-                        <div class="bg-white rounded-2xl shadow-lg p-5">
-                            <p class="text-sm font-medium text-gray-500">En Lavandería</p>
-                            <p class="text-3xl font-bold ${statusConfig['en lavandería'].textColor} mt-1">${enLavanderiaCount}</p>
-                        </div>
-                         <div class="bg-white rounded-2xl shadow-lg p-5">
-                            <p class="text-sm font-medium text-gray-500">Listo para Entregar</p>
-                            <p class="text-3xl font-bold ${statusConfig['listo para entregar'].textColor} mt-1">${listoParaEntregarCount}</p>
-                        </div>
-                        <div class="bg-white rounded-2xl shadow-lg p-5">
-                            <p class="text-sm font-medium text-gray-500">Entregado</p>
-                            <p class="text-3xl font-bold ${statusConfig['entregado'].textColor} mt-1">${entregadoCount}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Contenedor de la Tabla de Servicios -->
-                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-                    <div class="flex justify-between items-center p-4 md:p-6 border-b border-gray-200">
-                        <h3 class="text-lg font-semibold text-gray-800">Todos los Servicios</h3>
-                        <button id="refresh-btn-admin" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition" title="Recargar pedidos">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
-                            </svg>
-                        </button>
-                    </div>
-                     <div class="overflow-x-auto">
+                    <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-600">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr>
-                                    <th scope="col" class="px-6 py-4">ID Pedido</th>
-                                    <th scope="col" class="px-6 py-4">Cliente</th>
-                                    <th scope="col" class="px-6 py-4 min-w-[250px]">Progreso</th>
+                                    <th scope="col" class="px-4 py-3 sm:px-6 sm:py-4">ID Pedido</th>
+                                    <th scope="col" class="px-4 py-3 sm:px-6 sm:py-4">Cliente</th>
+                                    <th scope="col" class="px-4 py-3 sm:px-6 sm:py-4">Dirección</th>
+                                    <th scope="col" class="px-4 py-3 sm:px-6 sm:py-4 text-center">Pares</th>
+                                    <th scope="col" class="px-4 py-3 sm:px-6 sm:py-4 text-center">Estado</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
-                                ${services.map(service => {
+                                ${serviceList.map(service => {
                                     const config = statusConfig[service.status] || statusConfig.default;
                                     return `
                                     <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${service.id}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">${service.customer}</td>
-                                        <td class="px-6 py-4">
-                                            <div class="flex flex-col">
-                                                <div class="flex justify-between mb-1">
-                                                    <span class="text-xs font-semibold ${config.textColor}">
-                                                        ${config.text}
-                                                    </span>
-                                                </div>
-                                                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                                    <div class="h-2.5 rounded-full ${config.progressColor} ${config.progressWidth}" style="transition: width 0.5s ease-in-out;"></div>
-                                                </div>
-                                            </div>
+                                        <td class="px-4 py-3 sm:px-6 sm:py-4 font-medium text-gray-900 whitespace-nowrap">${service.id}</td>
+                                        <td class="px-4 py-3 sm:px-6 sm:py-4 whitespace-nowrap">${service.customer}</td>
+                                        <td class="px-4 py-3 sm:px-6 sm:py-4 whitespace-nowrap">${service.address}</td>
+                                        <td class="px-4 py-3 sm:px-6 sm:py-4 text-center font-medium">${service.items}</td>
+                                        <td class="px-4 py-3 sm:px-6 sm:py-4 text-center">
+                                            <span class="px-3 py-1 text-xs font-semibold leading-tight rounded-full ${config.badgeColor}">
+                                                ${config.text}
+                                            </span>
                                         </td>
                                     </tr>
                                     `;
@@ -498,11 +444,74 @@
                     </div>
                 </div>
             `;
+        }
+        
+        function renderAdminServices() {
+            const wrapper = document.getElementById('admin-content-wrapper');
+            if (!services) {
+                 wrapper.innerHTML = `<p class="text-gray-500 p-6 text-center bg-white rounded-2xl shadow-md">Cargando datos...</p>`;
+                 return;
+            }
+
+            const statusCounts = services.reduce((acc, service) => {
+                acc[service.status] = (acc[service.status] || 0) + 1;
+                return acc;
+            }, {});
             
-            // Llama a la función para renderizar el gráfico después de crear el canvas
+            const pendienteCount = statusCounts['pendiente de recogida'] || 0;
+            const enLavanderiaCount = statusCounts['en lavandería'] || 0;
+            const listoParaEntregarCount = statusCounts['listo para entregar'] || 0;
+            const entregadoCount = statusCounts['entregado'] || 0;
+
+            const pendingServices = services.filter(s => s.status === 'pendiente de recogida');
+            const laundryServices = services.filter(s => s.status === 'en lavandería');
+            const readyServices = services.filter(s => s.status === 'listo para entregar');
+            const deliveredServices = services.filter(s => s.status === 'entregado');
+
+            wrapper.innerHTML = `
+                <!-- Tabs Navigation -->
+                <div class="border-b border-gray-200 mb-6">
+                    <nav id="admin-tabs-nav" class="flex items-center -mb-px overflow-x-auto">
+                        <button data-tab="summary" class="admin-tab-btn flex-shrink-0 px-3 sm:px-4 py-3 text-sm font-semibold border-b-2 transition-colors border-blue-600 text-blue-600">Resumen</button>
+                        <button data-tab="pending" class="admin-tab-btn flex-shrink-0 flex items-center gap-2 px-3 sm:px-4 py-3 text-sm font-semibold border-b-2 transition-colors text-gray-500 hover:text-gray-700 border-transparent">
+                            Pendientes <span class="hidden sm:inline-block bg-yellow-200 text-yellow-800 text-xs font-bold px-2 py-0.5 rounded-full">${pendienteCount}</span>
+                        </button>
+                        <button data-tab="laundry" class="admin-tab-btn flex-shrink-0 flex items-center gap-2 px-3 sm:px-4 py-3 text-sm font-semibold border-b-2 transition-colors text-gray-500 hover:text-gray-700 border-transparent">
+                            Lavandería <span class="hidden sm:inline-block bg-purple-200 text-purple-800 text-xs font-bold px-2 py-0.5 rounded-full">${enLavanderiaCount}</span>
+                        </button>
+                        <button data-tab="ready" class="admin-tab-btn flex-shrink-0 flex items-center gap-2 px-3 sm:px-4 py-3 text-sm font-semibold border-b-2 transition-colors text-gray-500 hover:text-gray-700 border-transparent">
+                            Listos <span class="hidden sm:inline-block bg-sky-200 text-sky-800 text-xs font-bold px-2 py-0.5 rounded-full">${listoParaEntregarCount}</span>
+                        </button>
+                        <button data-tab="delivered" class="admin-tab-btn flex-shrink-0 flex items-center gap-2 px-3 sm:px-4 py-3 text-sm font-semibold border-b-2 transition-colors text-gray-500 hover:text-gray-700 border-transparent">
+                            Entregados <span class="hidden sm:inline-block bg-green-200 text-green-800 text-xs font-bold px-2 py-0.5 rounded-full">${entregadoCount}</span>
+                        </button>
+                    </nav>
+                </div>
+                
+                <!-- Tabs Content -->
+                <div id="admin-tabs-content">
+                    <div id="tab-content-summary" class="admin-tab-content space-y-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+                            <div class="lg:col-span-2 bg-white rounded-2xl shadow-lg p-4 md:p-6 flex flex-col">
+                                <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-4">Resumen de Pedidos Activos</h3>
+                                <div class="relative h-56 sm:h-64 md:h-80"><canvas id="admin-chart"></canvas></div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 lg:grid-cols-1 lg:gap-6">
+                                <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-5"><p class="text-xs sm:text-sm font-medium text-gray-500">Pendiente</p><p class="text-2xl sm:text-3xl font-bold ${statusConfig['pendiente de recogida'].textColor} mt-1">${pendienteCount}</p></div>
+                                <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-5"><p class="text-xs sm:text-sm font-medium text-gray-500">En Lavandería</p><p class="text-2xl sm:text-3xl font-bold ${statusConfig['en lavandería'].textColor} mt-1">${enLavanderiaCount}</p></div>
+                                <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-5"><p class="text-xs sm:text-sm font-medium text-gray-500">Listo</p><p class="text-2xl sm:text-3xl font-bold ${statusConfig['listo para entregar'].textColor} mt-1">${listoParaEntregarCount}</p></div>
+                                <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-5"><p class="text-xs sm:text-sm font-medium text-gray-500">Entregado</p><p class="text-2xl sm:text-3xl font-bold ${statusConfig['entregado'].textColor} mt-1">${entregadoCount}</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-content-pending" class="hidden admin-tab-content">${createServiceTableHTML(pendingServices, 'Pedidos Pendientes de Recogida')}</div>
+                    <div id="tab-content-laundry" class="hidden admin-tab-content">${createServiceTableHTML(laundryServices, 'Pedidos en Lavandería')}</div>
+                    <div id="tab-content-ready" class="hidden admin-tab-content">${createServiceTableHTML(readyServices, 'Pedidos Listos para Entregar')}</div>
+                    <div id="tab-content-delivered" class="hidden admin-tab-content">${createServiceTableHTML(deliveredServices, 'Pedidos Entregados')}</div>
+                </div>
+            `;
+            
             renderAdminChart(statusCounts);
-            // Vuelve a añadir el listener para el nuevo botón de refrescar
-            document.getElementById('refresh-btn-admin').addEventListener('click', refreshData);
         }
 
         function renderLaundryServices() {
@@ -678,8 +687,29 @@
             delivery: document.getElementById('settings-menu-delivery')
         };
         
+        document.getElementById('refresh-btn-admin').addEventListener('click', refreshData);
         document.getElementById('refresh-btn-service').addEventListener('click', refreshData);
         document.getElementById('refresh-btn-delivery').addEventListener('click', refreshData);
+        
+        document.querySelector('#admin-dashboard > main').addEventListener('click', (e) => {
+            const button = e.target.closest('.admin-tab-btn');
+            if (button) {
+                const tabId = button.dataset.tab;
+                const tabsNav = document.getElementById('admin-tabs-nav');
+                const tabContents = document.querySelectorAll('.admin-tab-content');
+
+                tabsNav.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                    btn.classList.remove('border-blue-600', 'text-blue-600');
+                    btn.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700');
+                });
+                button.classList.add('border-blue-600', 'text-blue-600');
+                button.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700');
+
+                tabContents.forEach(content => {
+                    content.id === `tab-content-${tabId}` ? content.classList.remove('hidden') : content.classList.add('hidden');
+                });
+            }
+        });
 
         const toggleMenu = (menu) => {
             Object.values(settingsMenus).forEach(m => { if (m !== menu) m.classList.add('hidden'); });
@@ -700,7 +730,6 @@
     </script>
 </body>
 </html>
-
 
 
 
