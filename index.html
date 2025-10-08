@@ -109,8 +109,8 @@
                     </div>
                 </div>
             </header>
-            <main class="px-2 sm:px-4 py-6 md:px-6 md:py-8">
-                <div id="admin-content-wrapper" class="max-w-7xl mx-auto space-y-6">
+            <main class="px-4 sm:px-6 py-6 md:px-8 md:py-8">
+                <div id="admin-content-wrapper" class="max-w-screen-2xl mx-auto space-y-6">
                     <!-- El contenido del admin con pestañas se inyectará aquí -->
                 </div>
             </main>
@@ -472,17 +472,17 @@
                 <!-- Tabs Navigation -->
                 <div class="border-b border-gray-200 mb-6">
                     <nav id="admin-tabs-nav" class="flex items-center -mb-px overflow-x-auto">
-                        <button data-tab="summary" class="admin-tab-btn flex-shrink-0 px-3 sm:px-4 py-3 text-sm font-semibold border-b-2 transition-colors border-blue-600 text-blue-600">Resumen</button>
-                        <button data-tab="pending" class="admin-tab-btn flex-shrink-0 flex items-center gap-2 px-3 sm:px-4 py-3 text-sm font-semibold border-b-2 transition-colors text-gray-500 hover:text-gray-700 border-transparent">
+                        <button data-tab="summary" class="admin-tab-btn flex-shrink-0 px-4 md:px-6 py-4 text-base font-medium border-b-2 transition-colors border-blue-600 text-blue-600">Resumen</button>
+                        <button data-tab="pending" class="admin-tab-btn flex-shrink-0 flex items-center gap-2 px-4 md:px-6 py-4 text-base font-medium border-b-2 transition-colors text-gray-500 hover:text-gray-700 border-transparent">
                             Pendientes <span class="hidden sm:inline-block bg-yellow-200 text-yellow-800 text-xs font-bold px-2 py-0.5 rounded-full">${pendienteCount}</span>
                         </button>
-                        <button data-tab="laundry" class="admin-tab-btn flex-shrink-0 flex items-center gap-2 px-3 sm:px-4 py-3 text-sm font-semibold border-b-2 transition-colors text-gray-500 hover:text-gray-700 border-transparent">
+                        <button data-tab="laundry" class="admin-tab-btn flex-shrink-0 flex items-center gap-2 px-4 md:px-6 py-4 text-base font-medium border-b-2 transition-colors text-gray-500 hover:text-gray-700 border-transparent">
                             Lavandería <span class="hidden sm:inline-block bg-purple-200 text-purple-800 text-xs font-bold px-2 py-0.5 rounded-full">${enLavanderiaCount}</span>
                         </button>
-                        <button data-tab="ready" class="admin-tab-btn flex-shrink-0 flex items-center gap-2 px-3 sm:px-4 py-3 text-sm font-semibold border-b-2 transition-colors text-gray-500 hover:text-gray-700 border-transparent">
+                        <button data-tab="ready" class="admin-tab-btn flex-shrink-0 flex items-center gap-2 px-4 md:px-6 py-4 text-base font-medium border-b-2 transition-colors text-gray-500 hover:text-gray-700 border-transparent">
                             Listos <span class="hidden sm:inline-block bg-sky-200 text-sky-800 text-xs font-bold px-2 py-0.5 rounded-full">${listoParaEntregarCount}</span>
                         </button>
-                        <button data-tab="delivered" class="admin-tab-btn flex-shrink-0 flex items-center gap-2 px-3 sm:px-4 py-3 text-sm font-semibold border-b-2 transition-colors text-gray-500 hover:text-gray-700 border-transparent">
+                        <button data-tab="delivered" class="admin-tab-btn flex-shrink-0 flex items-center gap-2 px-4 md:px-6 py-4 text-base font-medium border-b-2 transition-colors text-gray-500 hover:text-gray-700 border-transparent">
                             Entregados <span class="hidden sm:inline-block bg-green-200 text-green-800 text-xs font-bold px-2 py-0.5 rounded-full">${entregadoCount}</span>
                         </button>
                     </nav>
@@ -491,16 +491,16 @@
                 <!-- Tabs Content -->
                 <div id="admin-tabs-content">
                     <div id="tab-content-summary" class="admin-tab-content space-y-6">
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-                            <div class="lg:col-span-2 bg-white rounded-2xl shadow-lg p-4 md:p-6 flex flex-col">
-                                <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-4">Resumen de Pedidos Activos</h3>
-                                <div class="relative h-56 sm:h-64 md:h-80"><canvas id="admin-chart"></canvas></div>
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <div class="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6 md:p-8 flex flex-col">
+                                <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4">Resumen de Pedidos Activos</h3>
+                                <div class="relative h-64 md:h-96"><canvas id="admin-chart"></canvas></div>
                             </div>
-                            <div class="grid grid-cols-2 gap-4 lg:grid-cols-1 lg:gap-6">
-                                <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-5"><p class="text-xs sm:text-sm font-medium text-gray-500">Pendiente</p><p class="text-2xl sm:text-3xl font-bold ${statusConfig['pendiente de recogida'].textColor} mt-1">${pendienteCount}</p></div>
-                                <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-5"><p class="text-xs sm:text-sm font-medium text-gray-500">En Lavandería</p><p class="text-2xl sm:text-3xl font-bold ${statusConfig['en lavandería'].textColor} mt-1">${enLavanderiaCount}</p></div>
-                                <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-5"><p class="text-xs sm:text-sm font-medium text-gray-500">Listo</p><p class="text-2xl sm:text-3xl font-bold ${statusConfig['listo para entregar'].textColor} mt-1">${listoParaEntregarCount}</p></div>
-                                <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-5"><p class="text-xs sm:text-sm font-medium text-gray-500">Entregado</p><p class="text-2xl sm:text-3xl font-bold ${statusConfig['entregado'].textColor} mt-1">${entregadoCount}</p></div>
+                            <div class="grid grid-cols-2 gap-6 lg:grid-cols-1">
+                                <div class="bg-white rounded-2xl shadow-lg p-6"><p class="text-sm font-medium text-gray-500">Pendiente</p><p class="text-3xl sm:text-4xl font-bold ${statusConfig['pendiente de recogida'].textColor} mt-2">${pendienteCount}</p></div>
+                                <div class="bg-white rounded-2xl shadow-lg p-6"><p class="text-sm font-medium text-gray-500">En Lavandería</p><p class="text-3xl sm:text-4xl font-bold ${statusConfig['en lavandería'].textColor} mt-2">${enLavanderiaCount}</p></div>
+                                <div class="bg-white rounded-2xl shadow-lg p-6"><p class="text-sm font-medium text-gray-500">Listo</p><p class="text-3xl sm:text-4xl font-bold ${statusConfig['listo para entregar'].textColor} mt-2">${listoParaEntregarCount}</p></div>
+                                <div class="bg-white rounded-2xl shadow-lg p-6"><p class="text-sm font-medium text-gray-500">Entregado</p><p class="text-3xl sm:text-4xl font-bold ${statusConfig['entregado'].textColor} mt-2">${entregadoCount}</p></div>
                             </div>
                         </div>
                     </div>
@@ -730,6 +730,7 @@
     </script>
 </body>
 </html>
+
 
 
 
