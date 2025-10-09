@@ -49,6 +49,81 @@
             </div>
         </div>
     </div>
+    
+    <!-- Modal de Formulario de Recogida (Estética Mejorada) -->
+    <div id="pickup-form-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 md:p-8 transform transition-all scale-95 opacity-0" id="pickup-modal-content">
+            <form id="pickup-form">
+                <div class="text-center">
+                    <h3 class="text-2xl font-bold text-gray-900">Confirmar Recogida</h3>
+                    <p class="text-sm text-gray-500 mt-1">Completa los detalles del servicio.</p>
+                </div>
+                <div class="mt-8 space-y-5">
+                    <!-- Pregunta sobre el pago con estilo mejorado -->
+                    <div>
+                        <p class="text-sm font-medium text-gray-800 mb-3">¿El cliente pagó en la recogida?</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <input type="radio" name="paid-on-pickup" value="yes" id="paid-yes" class="sr-only peer">
+                                <label for="paid-yes" class="w-full text-center block p-3 rounded-lg border border-gray-300 cursor-pointer peer-checked:border-blue-600 peer-checked:bg-blue-50 peer-checked:text-blue-600 font-semibold transition-colors hover:bg-gray-50">Sí, pagó</label>
+                            </div>
+                            <div>
+                                <input type="radio" name="paid-on-pickup" value="no" id="paid-no" class="sr-only peer" checked>
+                                <label for="paid-no" class="w-full text-center block p-3 rounded-lg border border-gray-300 cursor-pointer peer-checked:border-red-500 peer-checked:bg-red-50 peer-checked:text-red-600 font-semibold transition-colors hover:bg-gray-50">No pagó</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detalles del pago (oculto por defecto) con estilo mejorado -->
+                    <div id="payment-details-section" class="hidden space-y-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <p class="text-sm font-medium text-gray-800">Método de pago:</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <input type="radio" name="payment-method" value="transfer" id="method-transfer" class="sr-only peer">
+                                <label for="method-transfer" class="w-full text-center flex items-center justify-center gap-2 p-3 rounded-lg border border-gray-300 cursor-pointer peer-checked:border-blue-600 peer-checked:bg-blue-50 peer-checked:text-blue-600 font-medium transition-colors hover:bg-gray-50">Transferencia</label>
+                            </div>
+                             <div>
+                                <input type="radio" name="payment-method" value="cash" id="method-cash" class="sr-only peer">
+                                <label for="method-cash" class="w-full text-center flex items-center justify-center gap-2 p-3 rounded-lg border border-gray-300 cursor-pointer peer-checked:border-green-600 peer-checked:bg-green-50 peer-checked:text-green-700 font-medium transition-colors hover:bg-gray-50">Efectivo</label>
+                            </div>
+                        </div>
+                        <div id="transfer-details-section" class="hidden">
+                             <label for="transfer-receipt-input" class="w-full flex items-center justify-center gap-2 rounded-lg bg-white border border-gray-300 px-4 py-3 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-100 transition-colors cursor-pointer">
+                                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                Foto del Comprobante
+                             </label>
+                            <input type="file" accept="image/*" capture="environment" id="transfer-receipt-input" class="hidden">
+                            <div id="transfer-receipt-preview" class="mt-2 flex justify-center p-2 bg-white rounded-lg border border-dashed"></div>
+                        </div>
+                         <div id="cash-details-section" class="hidden">
+                             <label for="cash-amount-input" class="block text-sm font-medium text-gray-700 mb-1">Valor en Efectivo</label>
+                             <div class="relative rounded-md shadow-sm">
+                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                  <span class="text-gray-500 sm:text-sm">$</span>
+                                </div>
+                                <input type="number" id="cash-amount-input" class="block w-full rounded-lg border-gray-300 py-3 pl-7 pr-4 focus:border-blue-500 focus:ring-blue-500 sm:text-sm" placeholder="25000">
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Fotos de los zapatos -->
+                    <div>
+                        <label for="shoe-photos-input" class="w-full flex items-center justify-center gap-2 rounded-lg bg-white border border-gray-300 px-4 py-3 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-100 transition-colors cursor-pointer">
+                           <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                           Fotos de los Zapatos
+                        </label>
+                        <input type="file" accept="image/*" id="shoe-photos-input" multiple class="hidden">
+                        <div id="shoe-photos-preview" class="mt-2 flex flex-wrap gap-3 p-2 bg-gray-50 rounded-lg border border-dashed min-h-[5rem]"></div>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex justify-center gap-4">
+                    <button id="pickup-modal-cancel-btn" type="button" class="px-8 py-3 rounded-lg bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition-all duration-300 transform hover:scale-105">Cancelar</button>
+                    <button id="pickup-modal-confirm-btn" type="submit" class="px-8 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-blue-500/20">Confirmar Recogida</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
 
     <!-- Contenedor Principal de la App -->
@@ -123,9 +198,9 @@
                 <div class="flex items-center space-x-2">
                      <button id="refresh-btn-service" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition" title="Recargar pedidos">
                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
-                        </svg>
-                    </button>
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
+                         </svg>
+                     </button>
                     <div class="relative">
                         <button id="settings-btn-service" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
                              <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -151,9 +226,9 @@
                  <div class="flex items-center space-x-2">
                      <button id="refresh-btn-delivery" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition" title="Recargar pedidos">
                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                           <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
+                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
                          </svg>
-                    </button>
+                     </button>
                     <div class="relative">
                         <button id="settings-btn-delivery" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
                              <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -166,7 +241,7 @@
             </header>
             <main class="px-4 py-8 md:px-8 md:py-12 max-w-screen-2xl mx-auto w-full">
                  <div id="delivery-content-wrapper">
-                    <!-- Contenido del panel de domiciliario con pestañas -->
+                     <!-- Contenido del panel de domiciliario con pestañas -->
                  </div>
             </main>
         </div>
@@ -196,10 +271,25 @@
         let onConfirmCallback = null;
         let adminChartInstance = null;
 
+        // --- Referencias al Modal de Formulario de Recogida ---
+        const pickupFormModal = document.getElementById('pickup-form-modal');
+        const pickupModalContent = document.getElementById('pickup-modal-content');
+        const pickupForm = document.getElementById('pickup-form');
+        const pickupModalCancelBtn = document.getElementById('pickup-modal-cancel-btn');
+        const paymentDetailsSection = document.getElementById('payment-details-section');
+        const transferDetailsSection = document.getElementById('transfer-details-section');
+        const cashDetailsSection = document.getElementById('cash-details-section');
+        const transferReceiptInput = document.getElementById('transfer-receipt-input');
+        const transferReceiptPreview = document.getElementById('transfer-receipt-preview');
+        const shoePhotosInput = document.getElementById('shoe-photos-input');
+        const shoePhotosPreview = document.getElementById('shoe-photos-preview');
+
 
         // --- Almacenamiento de Datos ---
         let services = [];
         let currentUserRole = null;
+        let transferReceiptFile = null;
+        let shoePhotoFiles = [];
         
         // --- URLs de los Webhooks ---
         const webhooks = {
@@ -658,28 +748,11 @@
                 }
             );
         }
+
         function markAsInLaundry(serviceId) {
-             showConfirmationModal(
-                'Confirmar Recogida',
-                '¿Estás seguro de que has recogido este pedido?',
-                async () => {
-                    loadingOverlay.classList.remove('hidden');
-                    try {
-                        const response = await fetch('https://webhook.wipti.com/webhook/Confirmar/Recogida', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ id: serviceId })
-                        });
-                        if (!response.ok) throw new Error(`Error en Webhook al confirmar recogida: ${response.statusText}`);
-                        updateServiceStatus(serviceId, 'en lavandería');
-                    } catch (error) {
-                        console.error(error);
-                    } finally {
-                        loadingOverlay.classList.add('hidden');
-                    }
-                }
-            );
+            showPickupFormModal(serviceId);
         }
+
         function markAsDelivered(serviceId) {
              showConfirmationModal(
                 'Confirmar Entrega',
@@ -709,7 +782,7 @@
             modalMessage.textContent = message;
             onConfirmCallback = callback;
             confirmationModal.classList.remove('hidden');
-            setTimeout(() => { // Pequeño delay para la animación
+            setTimeout(() => {
                 modalContent.classList.remove('scale-95', 'opacity-0');
                 modalContent.classList.add('scale-100', 'opacity-100');
             }, 10);
@@ -721,7 +794,7 @@
              setTimeout(() => {
                 confirmationModal.classList.add('hidden');
                 onConfirmCallback = null;
-             }, 200); // Esperar a que la animación termine
+             }, 200);
         }
 
         modalConfirmBtn.addEventListener('click', () => {
@@ -732,6 +805,170 @@
         });
 
         modalCancelBtn.addEventListener('click', hideConfirmationModal);
+
+        // --- LÓGICA DEL MODAL DE FORMULARIO DE RECOGIDA ---
+        function showPickupFormModal(serviceId) {
+            pickupForm.dataset.serviceId = serviceId;
+            pickupForm.reset();
+            // Restablecer estado visual
+            shoePhotoFiles = [];
+            transferReceiptFile = null;
+            renderShoePhotoPreviews();
+            renderTransferReceiptPreview();
+            // Ocultar secciones dinámicas
+            paymentDetailsSection.classList.add('hidden');
+            transferDetailsSection.classList.add('hidden');
+            cashDetailsSection.classList.add('hidden');
+
+            pickupFormModal.classList.remove('hidden');
+            setTimeout(() => {
+                pickupModalContent.classList.remove('scale-95', 'opacity-0');
+                pickupModalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function hidePickupFormModal() {
+            pickupModalContent.classList.add('scale-95', 'opacity-0');
+            pickupModalContent.classList.remove('scale-100', 'opacity-100');
+            setTimeout(() => {
+                pickupFormModal.classList.add('hidden');
+            }, 200);
+        }
+
+        pickupModalCancelBtn.addEventListener('click', hidePickupFormModal);
+        
+        document.querySelectorAll('input[name="paid-on-pickup"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                paymentDetailsSection.classList.toggle('hidden', e.target.value !== 'yes');
+            });
+        });
+
+        document.querySelectorAll('input[name="payment-method"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                transferDetailsSection.classList.toggle('hidden', e.target.value !== 'transfer');
+                cashDetailsSection.classList.toggle('hidden', e.target.value !== 'cash');
+            });
+        });
+        
+        function renderTransferReceiptPreview() {
+            transferReceiptPreview.innerHTML = '';
+            if (transferReceiptFile) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const previewWrapper = document.createElement('div');
+                    previewWrapper.className = 'relative max-w-xs';
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'max-h-32 object-contain rounded-md border-2 border-gray-200';
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    removeBtn.innerHTML = '&times;';
+                    removeBtn.className = 'absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs font-bold hover:bg-red-600 transition-colors';
+                    removeBtn.onclick = () => {
+                        transferReceiptFile = null;
+                        transferReceiptInput.value = '';
+                        renderTransferReceiptPreview();
+                    };
+                    previewWrapper.appendChild(img);
+                    previewWrapper.appendChild(removeBtn);
+                    transferReceiptPreview.appendChild(previewWrapper);
+                };
+                reader.readAsDataURL(transferReceiptFile);
+            }
+        }
+        
+        function renderShoePhotoPreviews() {
+            shoePhotosPreview.innerHTML = '';
+            shoePhotoFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const previewWrapper = document.createElement('div');
+                    previewWrapper.className = 'relative w-20 h-20';
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'w-full h-full object-cover rounded-lg border-2 border-gray-200';
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    removeBtn.innerHTML = '&times;';
+                    removeBtn.className = 'absolute -top-1 -right-1 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs font-bold hover:bg-red-600 transition-colors';
+                    removeBtn.onclick = () => {
+                        shoePhotoFiles.splice(index, 1);
+                        renderShoePhotoPreviews();
+                    };
+                    previewWrapper.appendChild(img);
+                    previewWrapper.appendChild(removeBtn);
+                    shoePhotosPreview.appendChild(previewWrapper);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+
+        transferReceiptInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                transferReceiptFile = e.target.files[0];
+                renderTransferReceiptPreview();
+            }
+        });
+
+        shoePhotosInput.addEventListener('change', (e) => {
+             if (e.target.files.length > 0) {
+                shoePhotoFiles.push(...e.target.files);
+                renderShoePhotoPreviews();
+                shoePhotosInput.value = ''; // Reset for next selection
+            }
+        });
+
+        pickupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loadingOverlay.classList.remove('hidden');
+
+            const serviceId = pickupForm.dataset.serviceId;
+            const formData = new FormData();
+            formData.append('serviceId', serviceId);
+
+            const paidOnPickup = document.querySelector('input[name="paid-on-pickup"]:checked').value;
+            formData.append('paidOnPickup', paidOnPickup);
+
+            if (paidOnPickup === 'yes') {
+                const paymentMethodRadio = document.querySelector('input[name="payment-method"]:checked');
+                if (paymentMethodRadio) {
+                    const paymentMethod = paymentMethodRadio.value;
+                     formData.append('paymentMethod', paymentMethod);
+                    if (paymentMethod === 'transfer') {
+                        if(transferReceiptFile) formData.append('transferReceipt', transferReceiptFile);
+                    } else { // cash
+                        const cashAmount = document.getElementById('cash-amount-input').value;
+                        formData.append('cashAmount', cashAmount);
+                    }
+                }
+            }
+            
+            shoePhotoFiles.forEach((file, i) => {
+                formData.append(`shoePhoto_${i}`, file);
+            });
+
+            try {
+                const response = await fetch('https://webhook.wipti.com/webhook/Confimar/Recogida/form', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error en Webhook de formulario: ${response.statusText}`);
+                }
+                
+                hidePickupFormModal();
+                updateServiceStatus(serviceId, 'en lavandería');
+
+            } catch (error) {
+                console.error('Error al enviar el formulario:', error);
+                // No usar alert, en su lugar podríamos mostrar un mensaje de error en el modal
+            } finally {
+                loadingOverlay.classList.add('hidden');
+            }
+        });
+
 
         // --- LÓGICA DEL MENÚ DE CONFIGURACIÓN Y RECARGA ---
         const settingsButtons = {
@@ -808,4 +1045,5 @@
     </script>
 </body>
 </html>
+
 
