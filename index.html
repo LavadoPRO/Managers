@@ -21,6 +21,8 @@
                     colors: {
                         'brand': '#00BCD4',
                         'brand-dark': '#0097A7',
+                        'light-gray': '#f5f5f5',
+                        'input-gray': '#fafafa',
                     },
                     fontFamily: {
                         inter: ['Inter', 'sans-serif'],
@@ -31,7 +33,7 @@
     </script>
     
 </head>
-<body class="bg-gray-100 font-inter">
+<body class="bg-light-gray font-inter">
 
     <!-- Indicador de Carga Global --><div id="loading-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
         <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-white"></div>
@@ -41,6 +43,7 @@
         <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 md:p-8 transform transition-all scale-95 opacity-0" id="modal-content">
             <h3 id="modal-title" class="text-xl font-bold text-gray-900 text-center">Confirmar Acción</h3>
             <p id="modal-message" class="mt-4 text-center text-gray-600">¿Estás seguro de que quieres continuar?</p>
+            <div id="modal-extra-actions" class="mt-6 hidden"></div>
             <div class="mt-8 flex justify-center gap-4">
                 <button id="modal-cancel-btn" class="px-6 py-2.5 rounded-lg bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition-colors duration-300">Cancelar</button>
                 <button id="modal-confirm-btn" class="px-6 py-2.5 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark transition-colors duration-300">Confirmar</button>
@@ -48,7 +51,7 @@
         </div>
     </div>
     
-    <!-- Modal de Formulario de Recogida (Estética Mejorada) --><div id="pickup-form-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
+    <!-- Modal de Formulario de Recogida/Entrega --><div id="pickup-form-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 md:p-8 transform transition-all scale-95 opacity-0" id="pickup-modal-content">
             <form id="pickup-form">
                 <div class="text-center">
@@ -120,25 +123,19 @@
     </div>
     <!-- Contenedor Principal de la App --><div id="app-container">
 
-        <!-- Contenedor del Login (Visible por defecto) --><div id="login-section" class="min-h-screen flex items-center justify-center p-4 bg-brand">
-            <div class="w-full max-w-md">
-                <div class="bg-white rounded-xl shadow-2xl overflow-hidden p-8 md:p-12">
+        <!-- Contenedor del Login (Visible por defecto) --><div id="login-section" class="min-h-screen flex items-center justify-center p-4 bg-light-gray">
+            <div class="w-full max-w-sm">
+                <div class="bg-white rounded-xl shadow-2xl overflow-hidden p-8">
                     <div class="text-center">
-                        <img class="mx-auto h-80 w-auto -my-16" src="https://sisplay.co/wp-content/uploads/2025/10/Gemini_Generated_Image_sohb4wsohb4wsohb-removebg-preview.png" alt="LavaoPro Logo" style="filter: drop-shadow(0 3px 5px rgba(255, 255, 255, 0.5));">
+                        <img class="mx-auto h-72 w-auto -my-16" src="https://sisplay.co/wp-content/uploads/2025/10/Gemini_Generated_Image_sohb4wsohb4wsohb-removebg-preview.png" alt="LavaoPro Logo" style="filter: drop-shadow(0 3px 5px rgba(255, 255, 255, 0.5));">
                     </div>
                     <div class="mt-10">
                         <form id="login-form" class="space-y-6">
                             <div>
-                                <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Correo electrónico</label>
-                                <div class="mt-2">
-                                    <input id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-lg border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand sm:text-sm sm:leading-6 transition duration-300 hover:bg-gray-50" placeholder="tu@correo.com">
-                                </div>
+                                <input id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-lg border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand sm:text-sm sm:leading-6 transition duration-300 bg-input-gray" placeholder="Correo electrónico">
                             </div>
                             <div>
-                                <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
-                                <div class="mt-2">
-                                    <input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-lg border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand sm:text-sm sm:leading-6 transition duration-300 hover:bg-gray-50" placeholder="••••••••">
-                                </div>
+                                <input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-lg border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand sm:text-sm sm:leading-6 transition duration-300 bg-input-gray" placeholder="Contraseña">
                             </div>
                             <p id="error-message" class="hidden text-center text-sm text-red-600">Correo o contraseña incorrectos.</p>
                             <p id="fetch-error-message" class="hidden text-center text-sm text-red-600">No se pudieron cargar los datos. Inténtalo de nuevo.</p>
@@ -151,7 +148,7 @@
             </div>
         </div>
 
-        <!-- ***** PANELES DE LA APLICACIÓN ***** --><!-- Panel del Administrador (Oculto por defecto) --><div id="admin-dashboard" class="hidden min-h-screen bg-gray-100">
+        <!-- ***** PANELES DE LA APLICACIÓN ***** --><!-- Panel del Administrador (Oculto por defecto) --><div id="admin-dashboard" class="hidden min-h-screen bg-light-gray">
             <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-20">
                 <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">Panel de <span class="text-brand">Administración</span></h1>
                 <div class="flex items-center space-x-1 sm:space-x-2">
@@ -176,7 +173,7 @@
             </main>
         </div>
 
-        <!-- Panel de Servicio (Oculto por defecto) --><div id="service-dashboard" class="hidden min-h-screen bg-gray-100">
+        <!-- Panel de Servicio (Oculto por defecto) --><div id="service-dashboard" class="hidden min-h-screen bg-light-gray">
             <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-20">
                 <h1 class="text-xl md:text-2xl font-bold text-gray-800">Panel de <span class="text-brand">Servicio</span></h1>
                 <div class="flex items-center space-x-2">
@@ -202,18 +199,18 @@
             </main>
         </div>
 
-        <!-- Panel del Domiciliario (Oculto por defecto) --><div id="delivery-dashboard" class="hidden min-h-screen bg-gray-100">
+        <!-- Panel del Domiciliario (Oculto por defecto) --><div id="delivery-dashboard" class="hidden min-h-screen bg-light-gray">
              <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-20">
                 <h1 class="text-xl md:text-2xl font-bold text-gray-800">Panel de <span class="text-brand">Domiciliario</span></h1>
                  <div class="flex items-center space-x-2">
-                      <button id="refresh-btn-delivery" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand transition" title="Recargar pedidos">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
-                          </svg>
-                      </button>
+                     <button id="refresh-btn-delivery" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand transition" title="Recargar pedidos">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M5.293 9.293a8 8 0 112.559 6.262" />
+                         </svg>
+                     </button>
                      <div class="relative">
                          <button id="settings-btn-delivery" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand transition">
-                              <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                             <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                          </button>
                          <div id="settings-menu-delivery" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-30 py-1 ring-1 ring-black ring-opacity-5">
                              <a href="#" onclick="logout(); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
@@ -223,7 +220,7 @@
             </header>
             <main class="px-4 py-8 md:px-8 md:py-12 max-w-screen-2xl mx-auto w-full">
                  <div id="delivery-content-wrapper">
-                      <!-- Contenido del panel de domiciliario con pestañas --></div>
+                     <!-- Contenido del panel de domiciliario con pestañas --></div>
             </main>
         </div>
     </div>
@@ -249,6 +246,7 @@
         const modalMessage = document.getElementById('modal-message');
         const modalConfirmBtn = document.getElementById('modal-confirm-btn');
         const modalCancelBtn = document.getElementById('modal-cancel-btn');
+        const modalExtraActions = document.getElementById('modal-extra-actions');
         let onConfirmCallback = null;
         let adminChartInstance = null;
 
@@ -330,7 +328,7 @@
             } else if (email === 'Servicio@LavaoPro.com' && password === 'ServicioL#Pro77#') {
                 role = 'service';
                 dashboard = serviceDashboard;
-            } else if (email === 'domicialiario@LavaoPro.com' && password === 'DomiciliarioL#7Pro7') {
+            } else if (email === 'domiciliario@LavaoPro.com' && password === 'DomiciliarioL#7Pro7') {
                 role = 'delivery';
                 dashboard = deliveryDashboard;
             }
@@ -475,41 +473,38 @@
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-600">
-                            <thead class="text-sm text-gray-700 uppercase bg-gray-100">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-100">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3">ID Pedido</th>
-                                    <th scope="col" class="px-6 py-3">Cliente</th>
-                                    <th scope="col" class="px-6 py-3">Celular</th>
-                                    <th scope="col" class="px-6 py-3">Dirección</th>
-                                    <th scope="col" class="px-6 py-3 text-center">Pares</th>
-                                    <th scope="col" class="px-6 py-3">Pago</th>
-                                    <th scope="col" class="px-6 py-3">Método</th>
-                                    <th scope="col" class="px-6 py-3 text-right">Valor</th>
-                                    <th scope="col" class="px-6 py-3">Recibo</th>
-                                    <th scope="col" class="px-6 py-3 text-center">Intentos Recogida</th>
-                                    <th scope="col" class="px-6 py-3 text-center">Intentos Entrega</th>
-                                    <th scope="col" class="px-6 py-3 text-center">Estado</th>
+                                    <th scope="col" class="px-4 py-3">ID Pedido</th>
+                                    <th scope="col" class="px-4 py-3">Cliente</th>
+                                    <th scope="col" class="px-4 py-3 hidden lg:table-cell">Celular</th>
+                                    <th scope="col" class="px-4 py-3">Dirección</th>
+                                    <th scope="col" class="px-4 py-3 text-center">Pares</th>
+                                    <th scope="col" class="px-4 py-3">Pago</th>
+                                    <th scope="col" class="px-4 py-3 hidden md:table-cell">Método</th>
+                                    <th scope="col" class="px-4 py-3 text-right hidden lg:table-cell">Valor</th>
+                                    <th scope="col" class="px-4 py-3 hidden md:table-cell">Recibo</th>
+                                    <th scope="col" class="px-4 py-3 text-center hidden xl:table-cell">Intentos Recogida</th>
+                                    <th scope="col" class="px-4 py-3 text-center hidden xl:table-cell">Intentos Entrega</th>
+                                    <th scope="col" class="px-4 py-3 text-center">Estado</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
                                 ${serviceList.map(service => {
                                     const config = statusConfig[service.status] || statusConfig.default;
                                     
-                                    // Payment Status
                                     const paymentStatusText = service.pago === 'si' ? 'Pagado' : 'No Pagado';
                                     const paymentStatusClass = service.pago === 'si' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
                                     const paymentIcon = service.pago === 'si' 
                                         ? `<svg class="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>`
                                         : `<svg class="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>`;
 
-                                    // Receipt Status
                                     const receiptStatusText = service.recibo === 'enviado' ? 'Enviado' : 'No Enviado';
                                     const receiptStatusClass = service.recibo === 'enviado' ? 'bg-blue-100 text-blue-800' : 'bg-gray-200 text-gray-800';
                                     const receiptIcon = service.recibo === 'enviado'
                                         ? `<svg class="w-3 h-3 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>`
                                         : `<svg class="w-3 h-3 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
 
-                                    // Payment Method
                                     let paymentMethodText = '—';
                                     if (service.metodo_pago === 'transferencia') {
                                         paymentMethodText = 'Transferencia';
@@ -517,33 +512,32 @@
                                         paymentMethodText = 'Efectivo';
                                     }
 
-                                    // Cash amount
                                     const cashAmountText = service.valor_efectivo ? `$${Number(service.valor_efectivo).toLocaleString('es-CO')}` : '—';
 
 
                                     return `
                                     <tr class="odd:bg-white even:bg-gray-50 hover:bg-cyan-50/50 transition-colors duration-200">
-                                        <td class="px-6 py-4 font-mono text-sm font-medium text-gray-900 whitespace-nowrap">${service.id}</td>
-                                        <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">${service.customer}</td>
-                                        <td class="px-6 py-4 font-mono text-sm text-gray-600 whitespace-nowrap">${service.phone || '—'}</td>
-                                        <td class="px-6 py-4 text-sm text-gray-600 whitespace-nowrap truncate max-w-xs">${service.address}</td>
-                                        <td class="px-6 py-4 text-sm text-center font-medium text-gray-800 whitespace-nowrap">${service.items}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-4 py-4 font-mono text-sm font-medium text-gray-900 whitespace-nowrap">${service.id}</td>
+                                        <td class="px-4 py-4 text-sm text-gray-800 whitespace-nowrap">${service.customer}</td>
+                                        <td class="px-4 py-4 font-mono text-sm text-gray-600 whitespace-nowrap hidden lg:table-cell">${service.phone || '—'}</td>
+                                        <td class="px-4 py-4 text-sm text-gray-600 whitespace-nowrap truncate max-w-[150px] sm:max-w-xs">${service.address}</td>
+                                        <td class="px-4 py-4 text-sm text-center font-medium text-gray-800 whitespace-nowrap">${service.items}</td>
+                                        <td class="px-4 py-4 whitespace-nowrap">
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${paymentStatusClass}">
                                                 ${paymentIcon} ${paymentStatusText}
                                             </span>
                                         </td>
-                                        <td class="px-6 py-4 text-sm text-gray-600 whitespace-nowrap">${paymentMethodText}</td>
-                                        <td class="px-6 py-4 font-mono text-sm text-right text-gray-800 whitespace-nowrap">${cashAmountText}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-4 py-4 text-sm text-gray-600 whitespace-nowrap hidden md:table-cell">${paymentMethodText}</td>
+                                        <td class="px-4 py-4 font-mono text-sm text-right text-gray-800 whitespace-nowrap hidden lg:table-cell">${cashAmountText}</td>
+                                        <td class="px-4 py-4 whitespace-nowrap hidden md:table-cell">
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${receiptStatusClass}">
                                                ${receiptIcon} ${receiptStatusText}
                                             </span>
                                         </td>
-                                        <td class="px-6 py-4 text-sm text-center font-medium text-gray-800 whitespace-nowrap">${service.intentos_recogida || 0}</td>
-                                        <td class="px-6 py-4 text-sm text-center font-medium text-gray-800 whitespace-nowrap">${service.intentos_entrega || 0}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-center">
-                                            <span class="inline-flex px-2.5 py-0.5 text-xs font-semibold leading-5 rounded-full ${config.badgeColor}">
+                                        <td class="px-4 py-4 text-sm text-center font-medium text-gray-800 whitespace-nowrap hidden xl:table-cell">${service.intentos_recogida || 0}</td>
+                                        <td class="px-4 py-4 text-sm text-center font-medium text-gray-800 whitespace-nowrap hidden xl:table-cell">${service.intentos_entrega || 0}</td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-center">
+                                            <span class="inline-flex px-2 py-0.5 text-xs font-semibold leading-5 rounded-full ${config.badgeColor}">
                                                 ${config.text}
                                             </span>
                                         </td>
@@ -700,7 +694,7 @@
             const isPickup = type === 'pickup';
             const buttonText = isPickup ? 'Confirmar Recogida' : 'Confirmar Entrega';
             const buttonClass = isPickup ? 'bg-brand hover:bg-brand-dark focus:ring-brand' : 'bg-green-600 hover:bg-green-700 focus:ring-green-500';
-            const onClickAction = isPickup ? `markAsInLaundry('${service.id}')` : `markAsDelivered('${service.id}')`;
+            const onClickAction = isPickup ? `openServiceForm('${service.id}', 'pickup')` : `openServiceForm('${service.id}', 'delivery')`;
             const borderColor = isPickup ? 'border-yellow-400' : 'border-sky-500';
             const badgeColor = isPickup ? 'bg-yellow-100 text-yellow-800' : 'bg-sky-100 text-sky-800';
 
@@ -741,7 +735,7 @@
                 addAttemptButtonHTML = `
                     <button onclick="addDeliveryAttempt('${service.id}')" class="w-full flex items-center justify-center gap-2 rounded-lg bg-orange-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 transition transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
-                        Registrar Intento Fallido
+                        Intento de Entrega Fallido
                     </button>
                 `;
             }
@@ -834,37 +828,24 @@
             );
         }
 
-        function markAsInLaundry(serviceId) {
-            showPickupFormModal(serviceId);
-        }
-
-        function markAsDelivered(serviceId) {
-             showConfirmationModal(
-                'Confirmar Entrega',
-                '¿Confirmas que este pedido ha sido entregado al cliente?',
-                async () => {
-                    loadingOverlay.classList.remove('hidden');
-                    try {
-                        const response = await fetch('https://webhook.wipti.com/webhook/Confirmar/entrega', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ id: serviceId })
-                        });
-                        if (!response.ok) throw new Error(`Error en Webhook al confirmar entrega: ${response.statusText}`);
-                        updateServiceStatus(serviceId, 'entregado');
-                    } catch (error) {
-                        console.error(error);
-                    } finally {
-                        loadingOverlay.classList.add('hidden');
-                    }
-                }
-            );
+        function openServiceForm(serviceId, action) {
+            showServiceFormModal(serviceId, action);
         }
 
         function addDeliveryAttempt(serviceId) {
+            const service = services.find(s => s.id === serviceId);
+            if (!service) return;
+
+            const message = `Se recomienda llamar al cliente antes de registrar el intento fallido.<br>¿Deseas continuar?`;
+            const extraActions = `
+                <a href="tel:${service.phone}" class="w-full max-w-xs mx-auto flex items-center justify-center gap-2 rounded-lg bg-brand px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-brand-dark transition transform hover:scale-105">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                    Llamar al Cliente (${service.phone})
+                </a>
+            `;
             showConfirmationModal(
                 'Confirmar Intento Fallido',
-                `¿Estás seguro de que quieres registrar un intento de entrega fallido para el pedido ${serviceId}?`,
+                message,
                 async () => {
                     loadingOverlay.classList.remove('hidden');
                     try {
@@ -876,26 +857,35 @@
                         if (!response.ok) {
                             throw new Error(`Error en Webhook al agregar intento: ${response.statusText}`);
                         }
-                        // Find the service and update it locally
-                        const service = services.find(s => s.id === serviceId);
-                        if (service) {
-                            service.intentos_entrega = (parseInt(service.intentos_entrega, 10) || 0) + 1;
-                            renderAllPanels(); // Re-render to show the new count
+                        const serviceToUpdate = services.find(s => s.id === serviceId);
+                        if (serviceToUpdate) {
+                            serviceToUpdate.intentos_entrega = (parseInt(serviceToUpdate.intentos_entrega, 10) || 0) + 1;
+                            renderAllPanels();
                         }
                     } catch (error) {
                         console.error(error);
-                        // Maybe show an error message here in a modal later
                     } finally {
                         loadingOverlay.classList.add('hidden');
                     }
-                }
+                },
+                extraActions
             );
         }
 
         function addPickupAttempt(serviceId) {
+            const service = services.find(s => s.id === serviceId);
+            if (!service) return;
+
+            const message = `Se recomienda llamar al cliente antes de registrar el intento fallido.<br>¿Deseas continuar?`;
+            const extraActions = `
+                <a href="tel:${service.phone}" class="w-full max-w-xs mx-auto flex items-center justify-center gap-2 rounded-lg bg-brand px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-brand-dark transition transform hover:scale-105">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                    Llamar al Cliente (${service.phone})
+                </a>
+            `;
             showConfirmationModal(
                 'Confirmar Intento Fallido',
-                `¿Registrar un intento de recogida fallido para el pedido ${serviceId}?`,
+                message,
                 async () => {
                     loadingOverlay.classList.remove('hidden');
                     try {
@@ -907,9 +897,9 @@
                         if (!response.ok) {
                             throw new Error(`Error en Webhook al agregar intento de recogida: ${response.statusText}`);
                         }
-                        const service = services.find(s => s.id === serviceId);
-                        if (service) {
-                            service.intentos_recogida = (parseInt(service.intentos_recogida, 10) || 0) + 1;
+                        const serviceToUpdate = services.find(s => s.id === serviceId);
+                        if (serviceToUpdate) {
+                            serviceToUpdate.intentos_recogida = (parseInt(serviceToUpdate.intentos_recogida, 10) || 0) + 1;
                             renderAllPanels();
                         }
                     } catch (error) {
@@ -917,15 +907,25 @@
                     } finally {
                         loadingOverlay.classList.add('hidden');
                     }
-                }
+                },
+                extraActions
             );
         }
         
         // --- LÓGICA DEL MODAL DE CONFIRMACIÓN ---
-        function showConfirmationModal(title, message, callback) {
+        function showConfirmationModal(title, message, callback, extraActionsHTML = '') {
             modalTitle.textContent = title;
-            modalMessage.textContent = message;
+            modalMessage.innerHTML = message;
             onConfirmCallback = callback;
+
+            if (extraActionsHTML) {
+                modalExtraActions.innerHTML = extraActionsHTML;
+                modalExtraActions.classList.remove('hidden');
+            } else {
+                modalExtraActions.innerHTML = '';
+                modalExtraActions.classList.add('hidden');
+            }
+
             confirmationModal.classList.remove('hidden');
             setTimeout(() => {
                 modalContent.classList.remove('scale-95', 'opacity-0');
@@ -939,6 +939,8 @@
              setTimeout(() => {
                 confirmationModal.classList.add('hidden');
                 onConfirmCallback = null;
+                modalExtraActions.innerHTML = '';
+                modalExtraActions.classList.add('hidden');
              }, 200);
         }
 
@@ -951,16 +953,28 @@
 
         modalCancelBtn.addEventListener('click', hideConfirmationModal);
 
-        // --- LÓGICA DEL MODAL DE FORMULARIO DE RECOGIDA ---
-        function showPickupFormModal(serviceId) {
+        // --- LÓGICA DEL MODAL DE FORMULARIO DE RECOGIDA/ENTREGA ---
+        function showServiceFormModal(serviceId, action) {
             pickupForm.dataset.serviceId = serviceId;
+            pickupForm.dataset.action = action;
             pickupForm.reset();
-            // Restablecer estado visual
+
+            const titleEl = pickupFormModal.querySelector('h3');
+            const confirmBtn = document.getElementById('pickup-modal-confirm-btn');
+
+            if (action === 'pickup') {
+                titleEl.textContent = 'Confirmar Recogida';
+                confirmBtn.textContent = 'Confirmar Recogida';
+            } else {
+                titleEl.textContent = 'Confirmar Entrega';
+                confirmBtn.textContent = 'Confirmar Entrega';
+            }
+            
             shoePhotoFiles = [];
             transferReceiptFile = null;
             renderShoePhotoPreviews();
             renderTransferReceiptPreview();
-            // Ocultar secciones dinámicas
+            
             paymentDetailsSection.classList.add('hidden');
             transferDetailsSection.classList.add('hidden');
             cashDetailsSection.classList.add('hidden');
@@ -1069,6 +1083,7 @@
             loadingOverlay.classList.remove('hidden');
 
             const serviceId = pickupForm.dataset.serviceId;
+            const action = pickupForm.dataset.action;
             const formData = new FormData();
             formData.append('serviceId', serviceId);
 
@@ -1093,22 +1108,32 @@
                 formData.append(`shoePhoto_${i}`, file);
             });
 
+            let webhookURL = '';
+            let newStatus = '';
+
+            if (action === 'pickup') {
+                webhookURL = 'https://webhook.wipti.com/webhook/Confimar/Recogida/form';
+                newStatus = 'en lavandería';
+            } else { 
+                webhookURL = 'https://webhook.wipti.com/webhook/Confirmar/Entrega/form';
+                newStatus = 'entregado';
+            }
+
             try {
-                const response = await fetch('https://webhook.wipti.com/webhook/Confimar/Recogida/form', {
+                const response = await fetch(webhookURL, {
                     method: 'POST',
                     body: formData
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Error en Webhook de formulario: ${response.statusText}`);
+                    throw new Error(`Error en Webhook de formulario (${action}): ${response.statusText}`);
                 }
                 
                 hidePickupFormModal();
-                updateServiceStatus(serviceId, 'en lavandería');
+                updateServiceStatus(serviceId, newStatus);
 
             } catch (error) {
-                console.error('Error al enviar el formulario:', error);
-                // No usar alert, en su lugar podríamos mostrar un mensaje de error en el modal
+                console.error(`Error al enviar el formulario de ${action}:`, error);
             } finally {
                 loadingOverlay.classList.add('hidden');
             }
