@@ -174,13 +174,39 @@
         </div>
     </div>
 
+    <!-- Modal Editar Valor (Admin) --><div id="edit-price-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 md:p-8 transform transition-all scale-95 opacity-0" id="edit-price-modal-content">
+            <form id="edit-price-form">
+                <div class="text-center">
+                    <h3 class="text-2xl font-bold text-gray-900">Editar Valor del Pedido</h3>
+                    <p class="text-sm text-gray-500 mt-1">Ingresa el nuevo valor total.</p>
+                </div>
+                <div class="mt-8">
+                    <label for="new-price-input" class="block text-sm font-medium text-gray-700 mb-1">Nuevo Valor</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                            <span class="text-gray-500 sm:text-sm">$</span>
+                        </div>
+                        <input type="number" id="new-price-input" class="block w-full rounded-lg border-gray-300 py-3 pl-7 pr-4 focus:border-brand focus:ring-brand sm:text-sm" placeholder="30000">
+                    </div>
+                </div>
+                <p id="edit-price-error" class="hidden text-center text-sm text-red-600 mt-4"></p>
+                <div class="mt-8 flex justify-center gap-4">
+                    <button id="edit-price-cancel-btn" type="button" class="px-8 py-3 rounded-lg bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition-all duration-300 transform hover:scale-105">Cancelar</button>
+                    <button id="edit-price-confirm-btn" type="submit" class="px-8 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark transition-all duration-300 transform hover:scale-105 shadow-lg shadow-cyan-500/20">Guardar Valor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
     <!-- Contenedor Principal de la App --><div id="app-container">
 
         <!-- Contenedor del Login (Visible por defecto) --><div id="login-section" class="min-h-screen flex items-center justify-center p-4 bg-light-gray">
              <div class="w-full" style="max-width: 24.5rem;">
                 <div class="bg-white rounded-xl shadow-2xl overflow-hidden p-8">
                     <div class="text-center -my-16 relative z-0">
-                        <img class="mx-auto h-80 w-auto" src="https://sisplay.co/wp-content/uploads/2025/10/Gemini_Generated_Image_pgvmjcpgvmjcpgvm-removebg-preview1.png" alt="LavaoPro Logo" style="filter: drop-shadow(0 3px 5px rgba(255, 255, 255, 0.5));">
+                        <img class="mx-auto h-80 w-auto" src="https://sisplay.co/wp-content/uploads/2025/10/Gemini_Generated_Image_sohb4wsohb4wsohb-removebg-preview1.png" alt="LavaoPro Logo" style="filter: drop-shadow(0 3px 5px rgba(255, 255, 255, 0.5));">
                     </div>
                     <div class="mt-10 relative z-10">
                         <form id="login-form" class="space-y-6">
@@ -325,6 +351,13 @@
         const cashDetailsSectionUpdate = document.getElementById('cash-details-section-update');
         const adminTransferReceiptInput = document.getElementById('admin-transfer-receipt-input');
         const adminTransferReceiptPreview = document.getElementById('admin-transfer-receipt-preview');
+
+         // --- Referencias al Modal Editar Valor (Admin) ---
+         const editPriceModal = document.getElementById('edit-price-modal');
+         const editPriceModalContent = document.getElementById('edit-price-modal-content');
+         const editPriceForm = document.getElementById('edit-price-form');
+         const editPriceCancelBtn = document.getElementById('edit-price-cancel-btn');
+         const newPriceInput = document.getElementById('new-price-input');
 
 
         // --- Almacenamiento de Datos ---
@@ -546,7 +579,7 @@
                                     <th scope="col" class="px-4 py-3 text-center">Pares</th>
                                     <th scope="col" class="px-4 py-3">Pago</th>
                                     <th scope="col" class="px-4 py-3 hidden md:table-cell">Método</th>
-                                    <th scope="col" class="px-4 py-3 text-right hidden lg:table-cell">Valor</th>
+                                    <th scope="col" class="px-4 py-3 text-right hidden lg:table-cell">Valor Pedido</th>
                                     <th scope="col" class="px-4 py-3 hidden md:table-cell">Recibo</th>
                                     <th scope="col" class="px-4 py-3 text-center hidden xl:table-cell">Intentos Recogida</th>
                                     <th scope="col" class="px-4 py-3 text-center hidden xl:table-cell">Intentos Entrega</th>
@@ -576,13 +609,20 @@
                                         paymentMethodText = 'Efectivo';
                                     }
 
-                                    const cashAmountText = service.valor_efectivo ? `$${Number(service.valor_efectivo).toLocaleString('es-CO')}` : '—';
+                                    const orderValueText = service.valor_efectivo ? `$${Number(service.valor_efectivo).toLocaleString('es-CO')}` : '—'; // Assuming valor_efectivo holds total value
                                     
                                     const paymentButtonHTML = service.pago !== 'si'
                                         ? `<button onclick="showPaymentFormModal('${service.id}')" class="p-1 rounded-full hover:bg-gray-200 transition-colors" title="Actualizar Pago">
                                             <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z"></path></svg>
                                            </button>`
                                         : '';
+                                    
+                                    const editPriceButtonHTML = service.status === 'pendiente de recogida'
+                                        ? `<button onclick="showEditPriceModal('${service.id}', '${service.valor_efectivo || ''}')" class="p-1 rounded-full hover:bg-gray-200 transition-colors" title="Editar Valor">
+                                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z"></path></svg>
+                                           </button>`
+                                        : '';
+
 
                                     return `
                                     <tr class="odd:bg-white even:bg-gray-50 hover:bg-cyan-50/50 transition-colors duration-200">
@@ -600,7 +640,12 @@
                                             </div>
                                         </td>
                                         <td class="px-4 py-4 text-sm text-gray-600 whitespace-nowrap hidden md:table-cell">${paymentMethodText}</td>
-                                        <td class="px-4 py-4 font-mono text-sm text-right text-gray-800 whitespace-nowrap hidden lg:table-cell">${cashAmountText}</td>
+                                        <td class="px-4 py-4 font-mono text-sm text-right text-gray-800 whitespace-nowrap hidden lg:table-cell">
+                                            <div class="flex items-center justify-end gap-1">
+                                                <span>${orderValueText}</span>
+                                                ${editPriceButtonHTML}
+                                            </div>
+                                        </td>
                                         <td class="px-4 py-4 whitespace-nowrap hidden md:table-cell">
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${receiptStatusClass}">
                                                ${receiptIcon} ${receiptStatusText}
@@ -1407,6 +1452,81 @@
                 loadingOverlay.classList.add('hidden');
             }
         });
+
+         // --- LÓGICA DEL MODAL EDITAR VALOR (Admin) ---
+         function showEditPriceModal(serviceId, currentPrice) {
+             editPriceForm.dataset.serviceId = serviceId;
+             newPriceInput.value = currentPrice || ''; // Pre-fill if exists
+             document.getElementById('edit-price-error').classList.add('hidden');
+
+             editPriceModal.classList.remove('hidden');
+             setTimeout(() => {
+                 editPriceModalContent.classList.remove('scale-95', 'opacity-0');
+                 editPriceModalContent.classList.add('scale-100', 'opacity-100');
+             }, 10);
+         }
+
+         function hideEditPriceModal() {
+             editPriceModalContent.classList.add('scale-95', 'opacity-0');
+             editPriceModalContent.classList.remove('scale-100', 'opacity-100');
+             setTimeout(() => {
+                 editPriceModal.classList.add('hidden');
+             }, 200);
+         }
+
+         editPriceCancelBtn.addEventListener('click', hideEditPriceModal);
+
+         editPriceForm.addEventListener('submit', async (e) => {
+             e.preventDefault();
+             const errorEl = document.getElementById('edit-price-error');
+             errorEl.classList.add('hidden');
+
+             const serviceId = editPriceForm.dataset.serviceId;
+             const newPrice = newPriceInput.value;
+
+             if (!newPrice || newPrice <= 0) {
+                 errorEl.textContent = "Debe ingresar un nuevo valor válido.";
+                 errorEl.classList.remove('hidden');
+                 return;
+             }
+
+             loadingOverlay.classList.remove('hidden');
+
+             const payload = {
+                 id: serviceId,
+                 nuevo_precio: newPrice
+             };
+
+             const webhookURL = 'https://webhook.wipti.com/webhook/editar/Valor/admin';
+
+             try {
+                 const response = await fetch(webhookURL, {
+                     method: 'POST',
+                     headers: { 'Content-Type': 'application/json' },
+                     body: JSON.stringify(payload)
+                 });
+
+                 if (!response.ok) {
+                     throw new Error(`Error en Webhook al editar valor: ${response.statusText}`);
+                 }
+
+                 const service = services.find(s => s.id === serviceId);
+                 if (service) {
+                     service.valor_efectivo = newPrice; // Update local data
+                 }
+
+                 hideEditPriceModal();
+                 renderAdminServices(); // Re-render only admin table
+
+             } catch (error) {
+                 console.error(`Error al editar el valor:`, error);
+                 errorEl.textContent = 'Error al guardar el nuevo valor. Inténtalo de nuevo.';
+                 errorEl.classList.remove('hidden');
+             } finally {
+                 loadingOverlay.classList.add('hidden');
+             }
+         });
+
 
         // --- LÓGICA DEL MENÚ DE CONFIGURACIÓN Y RECARGA ---
         const settingsButtons = {
