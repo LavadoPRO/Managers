@@ -113,7 +113,7 @@
                         <div id="shoe-photos-preview" class="mt-2 flex flex-wrap gap-3 p-2 bg-gray-50 rounded-lg border border-dashed min-h-[5rem]"></div>
                     </div>
                 </div>
-
+                <p id="pickup-form-error" class="hidden text-center text-sm text-red-600 mt-4"></p>
                 <div class="mt-8 flex justify-center gap-4">
                     <button id="pickup-modal-cancel-btn" type="button" class="px-8 py-3 rounded-lg bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition-all duration-300 transform hover:scale-105">Cancelar</button>
                     <button id="pickup-modal-confirm-btn" type="submit" class="px-8 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark transition-all duration-300 transform hover:scale-105 shadow-lg shadow-cyan-500/20">Confirmar Recogida</button>
@@ -146,15 +146,15 @@
                     </div>
     
                     <!-- Payment Details -->
-                    <div id="transfer-details-section-update" class="hidden">
-                        <label for="transfer-amount-input" class="block text-sm font-medium text-gray-700 mb-1">Valor Transferido</label>
-                        <div class="relative rounded-md shadow-sm">
-                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                <span class="text-gray-500 sm:text-sm">$</span>
-                            </div>
-                            <input type="number" id="transfer-amount-input" class="block w-full rounded-lg border-gray-300 py-3 pl-7 pr-4 focus:border-brand focus:ring-brand sm:text-sm" placeholder="25000">
-                        </div>
-                    </div>
+                     <div id="transfer-details-section-update" class="hidden space-y-4">
+                         <!-- Campo de valor transferido eliminado -->
+                         <label for="admin-transfer-receipt-input" class="w-full flex items-center justify-center gap-2 rounded-lg bg-white border border-gray-300 px-4 py-3 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-100 transition-colors cursor-pointer">
+                             <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                             Foto del Comprobante
+                         </label>
+                         <input type="file" accept="image/*" id="admin-transfer-receipt-input" class="hidden">
+                         <div id="admin-transfer-receipt-preview" class="mt-2 flex justify-center p-2 bg-white rounded-lg border border-dashed"></div>
+                     </div>
                     <div id="cash-details-section-update" class="hidden">
                         <label for="cash-amount-input-update" class="block text-sm font-medium text-gray-700 mb-1">Valor en Efectivo</label>
                         <div class="relative rounded-md shadow-sm">
@@ -165,7 +165,7 @@
                         </div>
                     </div>
                 </div>
-    
+                <p id="payment-update-error" class="hidden text-center text-sm text-red-600 mt-4"></p>
                 <div class="mt-8 flex justify-center gap-4">
                     <button id="payment-modal-cancel-btn" type="button" class="px-8 py-3 rounded-lg bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition-all duration-300 transform hover:scale-105">Cancelar</button>
                     <button id="payment-modal-confirm-btn" type="submit" class="px-8 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark transition-all duration-300 transform hover:scale-105 shadow-lg shadow-cyan-500/20">Confirmar Pago</button>
@@ -177,12 +177,12 @@
     <!-- Contenedor Principal de la App --><div id="app-container">
 
         <!-- Contenedor del Login (Visible por defecto) --><div id="login-section" class="min-h-screen flex items-center justify-center p-4 bg-light-gray">
-            <div class="w-full max-w-sm">
+             <div class="w-full" style="max-width: 24.5rem;">
                 <div class="bg-white rounded-xl shadow-2xl overflow-hidden p-8">
-                    <div class="text-center">
-                        <img class="mx-auto h-80 w-auto -my-16" src="https://sisplay.co/wp-content/uploads/2025/10/Gemini_Generated_Image_pgvmjcpgvmjcpgvm-removebg-preview1.png" alt="LavaoPro Logo" style="filter: drop-shadow(0 3px 5px rgba(255, 255, 255, 0.5));">
+                    <div class="text-center -my-16 relative z-0">
+                        <img class="mx-auto h-80 w-auto" src="https://sisplay.co/wp-content/uploads/2025/10/Gemini_Generated_Image_pgvmjcpgvmjcpgvm-removebg-preview1.png" alt="LavaoPro Logo" style="filter: drop-shadow(0 3px 5px rgba(255, 255, 255, 0.5));">
                     </div>
-                    <div class="mt-10">
+                    <div class="mt-10 relative z-10">
                         <form id="login-form" class="space-y-6">
                             <div>
                                 <input id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-lg border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand sm:text-sm sm:leading-6 transition duration-300 bg-input-gray" placeholder="Correo electrónico">
@@ -323,12 +323,16 @@
         const paymentModalCancelBtn = document.getElementById('payment-modal-cancel-btn');
         const transferDetailsSectionUpdate = document.getElementById('transfer-details-section-update');
         const cashDetailsSectionUpdate = document.getElementById('cash-details-section-update');
+        const adminTransferReceiptInput = document.getElementById('admin-transfer-receipt-input');
+        const adminTransferReceiptPreview = document.getElementById('admin-transfer-receipt-preview');
+
 
         // --- Almacenamiento de Datos ---
         let services = [];
         let currentUserRole = null;
         let transferReceiptFile = null;
         let shoePhotoFiles = [];
+        let adminTransferReceiptFile = null; // Variable para la foto del admin
         
         // --- URLs de los Webhooks ---
         const webhooks = {
@@ -566,9 +570,9 @@
                                         : `<svg class="w-3 h-3 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
 
                                     let paymentMethodText = '—';
-                                    if (service.metodo_pago === 'transferencia') {
+                                    if (service.metodo_pago === 'transfer') {
                                         paymentMethodText = 'Transferencia';
-                                    } else if (service.metodo_pago === 'efectivo') {
+                                    } else if (service.metodo_pago === 'cash') {
                                         paymentMethodText = 'Efectivo';
                                     }
 
@@ -1148,27 +1152,60 @@
 
         pickupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            loadingOverlay.classList.remove('hidden');
+            const errorEl = document.getElementById('pickup-form-error');
+            errorEl.classList.add('hidden'); // Ocultar errores previos
 
             const serviceId = pickupForm.dataset.serviceId;
             const action = pickupForm.dataset.action;
+            const paidOnPickup = document.querySelector('input[name="paid-on-pickup"]:checked').value;
+            
+            // Validation
+            if (action === 'pickup' && shoePhotoFiles.length === 0) {
+                errorEl.textContent = 'Debe agregar al menos una foto de los zapatos.';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+
+            if (paidOnPickup === 'yes') {
+                const paymentMethodRadio = document.querySelector('input[name="payment-method"]:checked');
+                if (!paymentMethodRadio) {
+                    errorEl.textContent = 'Debe seleccionar un método de pago.';
+                    errorEl.classList.remove('hidden');
+                    return;
+                }
+                if (paymentMethodRadio.value === 'cash') {
+                    const cashAmount = document.getElementById('cash-amount-input').value;
+                    if (!cashAmount || cashAmount <= 0) {
+                        errorEl.textContent = 'Debe ingresar un valor para el pago en efectivo.';
+                        errorEl.classList.remove('hidden');
+                        return;
+                    }
+                } else if (paymentMethodRadio.value === 'transfer') {
+                    if (!transferReceiptFile) {
+                        errorEl.textContent = 'Debe adjuntar un comprobante para la transferencia.';
+                        errorEl.classList.remove('hidden');
+                        return;
+                    }
+                }
+            }
+
+
+            loadingOverlay.classList.remove('hidden');
+
             const formData = new FormData();
             formData.append('serviceId', serviceId);
-
-            const paidOnPickup = document.querySelector('input[name="paid-on-pickup"]:checked').value;
             formData.append('paidOnPickup', paidOnPickup);
 
             if (paidOnPickup === 'yes') {
                 const paymentMethodRadio = document.querySelector('input[name="payment-method"]:checked');
-                if (paymentMethodRadio) {
-                    const paymentMethod = paymentMethodRadio.value;
-                     formData.append('paymentMethod', paymentMethod);
-                    if (paymentMethod === 'transfer') {
-                        if(transferReceiptFile) formData.append('transferReceipt', transferReceiptFile);
-                    } else { // cash
-                        const cashAmount = document.getElementById('cash-amount-input').value;
-                        formData.append('cashAmount', cashAmount);
-                    }
+                const paymentMethod = paymentMethodRadio.value;
+                 const paymentMethodForWebhook = paymentMethod === 'transfer' ? 'Transferencia' : 'Efectivo';
+                 formData.append('paymentMethod', paymentMethodForWebhook); // Enviar valor traducido
+                if (paymentMethod === 'transfer') {
+                    if(transferReceiptFile) formData.append('transferReceipt', transferReceiptFile);
+                } else { // cash
+                    const cashAmount = document.getElementById('cash-amount-input').value;
+                    formData.append('cashAmount', cashAmount);
                 }
             }
             
@@ -1180,10 +1217,10 @@
             let newStatus = '';
 
             if (action === 'pickup') {
-                webhookURL = 'https://webhook.wipti.com/webhook/Confimar/Recogida/form';
+                webhookURL = 'https://webhook.wipti.com/webhook/3ab9ac7d-8475-48b5-9f98-1d6af14fa0dd';
                 newStatus = 'en lavandería';
             } else { 
-                webhookURL = 'https://webhook.wipti.com/webhook/Confirmar/Entrega/form';
+                webhookURL = 'https://webhook.wipti.com/webhook/e40ee205-4c4e-4c79-90b4-a4e69cad148c';
                 newStatus = 'entregado';
             }
 
@@ -1202,6 +1239,8 @@
 
             } catch (error) {
                 console.error(`Error al enviar el formulario de ${action}:`, error);
+                errorEl.textContent = 'Error al enviar el formulario. Inténtalo de nuevo.';
+                errorEl.classList.remove('hidden');
             } finally {
                 loadingOverlay.classList.add('hidden');
             }
@@ -1214,6 +1253,10 @@
             
             transferDetailsSectionUpdate.classList.add('hidden');
             cashDetailsSectionUpdate.classList.add('hidden');
+            adminTransferReceiptFile = null; // Resetear archivo del admin
+            renderAdminTransferReceiptPreview(); // Limpiar preview del admin
+            document.getElementById('payment-update-error').classList.add('hidden');
+
 
             paymentUpdateModal.classList.remove('hidden');
             setTimeout(() => {
@@ -1239,45 +1282,96 @@
             });
         });
 
+        // Preview y manejo de archivo para el comprobante del admin
+        adminTransferReceiptInput.addEventListener('change', (e) => {
+             if (e.target.files.length > 0) {
+                 adminTransferReceiptFile = e.target.files[0];
+                 renderAdminTransferReceiptPreview();
+             }
+         });
+
+        function renderAdminTransferReceiptPreview() {
+            adminTransferReceiptPreview.innerHTML = '';
+            if (adminTransferReceiptFile) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const previewWrapper = document.createElement('div');
+                    previewWrapper.className = 'relative max-w-xs';
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'max-h-32 object-contain rounded-md border-2 border-gray-200';
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    removeBtn.innerHTML = '×';
+                    removeBtn.className = 'absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs font-bold hover:bg-red-600 transition-colors';
+                    removeBtn.onclick = () => {
+                        adminTransferReceiptFile = null;
+                        adminTransferReceiptInput.value = '';
+                        renderAdminTransferReceiptPreview();
+                    };
+                    previewWrapper.appendChild(img);
+                    previewWrapper.appendChild(removeBtn);
+                    adminTransferReceiptPreview.appendChild(previewWrapper);
+                };
+                reader.readAsDataURL(adminTransferReceiptFile);
+            }
+        }
+
+
         paymentUpdateForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            loadingOverlay.classList.remove('hidden');
+            const errorEl = document.getElementById('payment-update-error');
+            errorEl.classList.add('hidden');
 
             const serviceId = paymentUpdateForm.dataset.serviceId;
-            const formData = new FormData();
-            formData.append('id', serviceId);
-
+            
             const paymentMethodRadio = document.querySelector('input[name="payment-method-update"]:checked');
             if (!paymentMethodRadio) {
-                console.error("No payment method selected");
-                loadingOverlay.classList.add('hidden');
+                errorEl.textContent = "Debe seleccionar un método de pago.";
+                errorEl.classList.remove('hidden');
                 return; 
             }
-            const paymentMethod = paymentMethodRadio.value;
-            formData.append('metodo_pago', paymentMethod);
+            const paymentMethodValue = paymentMethodRadio.value;
 
             let amount;
-            if (paymentMethod === 'transfer') {
-                amount = document.getElementById('transfer-amount-input').value;
+            if (paymentMethodValue === 'transfer') {
+                 // No se necesita el valor para transferencia en este formulario
+                 if (!adminTransferReceiptFile) {
+                     errorEl.textContent = "Debe adjuntar un comprobante para la transferencia.";
+                     errorEl.classList.remove('hidden');
+                     return;
+                 }
+                 // Podrías decidir enviar un valor por defecto o 0 si tu webhook lo requiere
+                 amount = 0; // O un valor que indique que el comprobante es la prueba
             } else { // cash
                 amount = document.getElementById('cash-amount-input-update').value;
+                 if (!amount || amount <= 0) {
+                     errorEl.textContent = "Debe ingresar un valor de pago válido para efectivo.";
+                     errorEl.classList.remove('hidden');
+                     return;
+                 }
             }
             
-            if (!amount || amount <= 0) {
-                console.error("Amount is required");
-                loadingOverlay.classList.add('hidden');
-                return;
-            }
+            loadingOverlay.classList.remove('hidden');
             
-            formData.append('valor_efectivo', amount);
-            formData.append('pago', 'si');
-            formData.append('recibo', 'no enviado');
+            const paymentMethodForWebhook = paymentMethodValue === 'transfer' ? 'Transferencia' : 'Efectivo';
 
-            const webhookURL = 'https://webhook.wipti.com/webhook/actualizar/pago';
+            const formData = new FormData(); // Usar FormData para enviar el archivo
+            formData.append('id', serviceId);
+            formData.append('valor_pago', amount); // Enviar 0 o el valor si es efectivo
+            formData.append('metodo_pago', paymentMethodForWebhook);
+            formData.append('estado_pago', 'si pago');
+             if (paymentMethodValue === 'transfer' && adminTransferReceiptFile) {
+                 formData.append('comprobante_pago', adminTransferReceiptFile); // Nombre del archivo para el webhook
+             }
+
+
+            const webhookURL = 'https://webhook.wipti.com/webhook/EditarPago/Lavao';
 
             try {
                 const response = await fetch(webhookURL, {
                     method: 'POST',
+                    // No 'Content-Type' header needed when sending FormData
                     body: formData 
                 });
 
@@ -1288,8 +1382,18 @@
                 const service = services.find(s => s.id === serviceId);
                 if(service) {
                     service.pago = 'si';
-                    service.metodo_pago = paymentMethod;
-                    service.valor_efectivo = amount;
+                    service.metodo_pago = paymentMethodValue; // Keep original value ('transfer' or 'cash') for UI consistency
+                    // Actualizar valor efectivo solo si fue efectivo
+                    if(paymentMethodValue === 'cash') {
+                       service.valor_efectivo = amount;
+                    } else {
+                       // Opcional: podrías poner el valor de transferencia aquí si lo capturas de alguna forma
+                       // service.valor_efectivo = amount; // Pero lo hemos quitado
+                    }
+                    // Actualizar el estado del recibo si se envió uno
+                    if (paymentMethodValue === 'transfer' && adminTransferReceiptFile) {
+                        service.recibo = 'enviado'; // Assuming webhook confirms receipt upload
+                    }
                 }
 
                 hidePaymentFormModal();
@@ -1297,6 +1401,8 @@
 
             } catch (error) {
                 console.error(`Error al actualizar el pago:`, error);
+                errorEl.textContent = 'Error al enviar los datos. Inténtalo de nuevo.';
+                errorEl.classList.remove('hidden');
             } finally {
                 loadingOverlay.classList.add('hidden');
             }
@@ -1377,8 +1483,4 @@
     </script>
 </body>
 </html>
-
-
-
-
 
